@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
-import '../../domain/entities/income_summary.dart';
+
+import '../../../../core/models/income_summary.dart';
 
 abstract class AnalyticsState extends Equatable {
   const AnalyticsState();

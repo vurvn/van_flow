@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/entities/order_entity.dart';
+import '../../../../core/models/order_entity.dart';
 import '../../domain/repositories/order_repository.dart';
 import '../../data/utils/profit_calculator.dart';
 import 'order_event.dart';
@@ -33,8 +33,10 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     final netProfit = ProfitCalculator.calculateNetProfit(event.price, event.distance);
     
     final order = OrderEntity(
-      price: event.price,
+      platform: "Captured",
+      revenue: event.price,
       distance: event.distance,
+      timestamp: DateTime.now(),
       netProfit: netProfit,
     );
 

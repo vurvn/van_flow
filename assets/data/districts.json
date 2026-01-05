@@ -1,0 +1,266 @@
+[
+  {
+    "districtId": "hcm_q1",
+    "districtName": "Quận 1",
+    "city": "Hồ Chí Minh",
+    "profile": {
+      "chainProbability": 0.8,
+      "avgIncomePerKm": 15000,
+      "avgWaitingMinutes": 15,
+      "isVanFriendly": false,
+      "hasTimeRestriction": true
+    }
+  },
+  {
+    "districtId": "hcm_q3",
+    "districtName": "Quận 3",
+    "city": "Hồ Chí Minh",
+    "profile": {
+      "chainProbability": 0.75,
+      "avgIncomePerKm": 14000,
+      "avgWaitingMinutes": 12,
+      "isVanFriendly": false,
+      "hasTimeRestriction": true
+    }
+  },
+  {
+    "districtId": "hcm_q4",
+    "districtName": "Quận 4",
+    "city": "Hồ Chí Minh",
+    "profile": {
+      "chainProbability": 0.65,
+      "avgIncomePerKm": 12000,
+      "avgWaitingMinutes": 10,
+      "isVanFriendly": false,
+      "hasTimeRestriction": true
+    }
+  },
+  {
+    "districtId": "hcm_q5",
+    "districtName": "Quận 5",
+    "city": "Hồ Chí Minh",
+    "profile": {
+      "chainProbability": 0.7,
+      "avgIncomePerKm": 13000,
+      "avgWaitingMinutes": 12,
+      "isVanFriendly": false,
+      "hasTimeRestriction": true
+    }
+  },
+  {
+    "districtId": "hcm_q6",
+    "districtName": "Quận 6",
+    "city": "Hồ Chí Minh",
+    "profile": {
+      "chainProbability": 0.6,
+      "avgIncomePerKm": 11000,
+      "avgWaitingMinutes": 8,
+      "isVanFriendly": true,
+      "hasTimeRestriction": false
+    }
+  },
+  {
+    "districtId": "hcm_q7",
+    "districtName": "Quận 7",
+    "city": "Hồ Chí Minh",
+    "profile": {
+      "chainProbability": 0.6,
+      "avgIncomePerKm": 12000,
+      "avgWaitingMinutes": 5,
+      "isVanFriendly": true,
+      "hasTimeRestriction": false
+    }
+  },
+  {
+    "districtId": "hcm_q8",
+    "districtName": "Quận 8",
+    "city": "Hồ Chí Minh",
+    "profile": {
+      "chainProbability": 0.55,
+      "avgIncomePerKm": 10000,
+      "avgWaitingMinutes": 10,
+      "isVanFriendly": true,
+      "hasTimeRestriction": false
+    }
+  },
+  {
+    "districtId": "hcm_q10",
+    "districtName": "Quận 10",
+    "city": "Hồ Chí Minh",
+    "profile": {
+      "chainProbability": 0.75,
+      "avgIncomePerKm": 14000,
+      "avgWaitingMinutes": 12,
+      "isVanFriendly": false,
+      "hasTimeRestriction": true
+    }
+  },
+  {
+    "districtId": "hcm_q11",
+    "districtName": "Quận 11",
+    "city": "Hồ Chí Minh",
+    "profile": {
+      "chainProbability": 0.65,
+      "avgIncomePerKm": 11000,
+      "avgWaitingMinutes": 10,
+      "isVanFriendly": true,
+      "hasTimeRestriction": false
+    }
+  },
+  {
+    "districtId": "hcm_q12",
+    "districtName": "Quận 12",
+    "city": "Hồ Chí Minh",
+    "profile": {
+      "chainProbability": 0.45,
+      "avgIncomePerKm": 9000,
+      "avgWaitingMinutes": 5,
+      "isVanFriendly": true,
+      "hasTimeRestriction": false
+    }
+  },
+  {
+    "districtId": "hcm_tp_thu_duc",
+    "districtName": "TP. Thủ Đức",
+    "city": "Hồ Chí Minh",
+    "profile": {
+      "chainProbability": 0.5,
+      "avgIncomePerKm": 11000,
+      "avgWaitingMinutes": 8,
+      "isVanFriendly": true,
+      "hasTimeRestriction": false
+    }
+  },
+  {
+    "districtId": "hcm_binh_tan",
+    "districtName": "Bình Tân",
+    "city": "Hồ Chí Minh",
+    "profile": {
+      "chainProbability": 0.5,
+      "avgIncomePerKm": 10000,
+      "avgWaitingMinutes": 7,
+      "isVanFriendly": true,
+      "hasTimeRestriction": false
+    }
+  },
+  {
+    "districtId": "hcm_binh_thanh",
+    "districtName": "Bình Thạnh",
+    "city": "Hồ Chí Minh",
+    "profile": {
+      "chainProbability": 0.7,
+      "avgIncomePerKm": 13000,
+      "avgWaitingMinutes": 12,
+      "isVanFriendly": false,
+      "hasTimeRestriction": true
+    }
+  },
+  {
+    "districtId": "hcm_go_vap",
+    "districtName": "Gò Vấp",
+    "city": "Hồ Chí Minh",
+    "profile": {
+      "chainProbability": 0.65,
+      "avgIncomePerKm": 12000,
+      "avgWaitingMinutes": 15,
+      "isVanFriendly": false,
+      "hasTimeRestriction": true
+    }
+  },
+  {
+    "districtId": "hcm_phu_nhuan",
+    "districtName": "Phú Nhuận",
+    "city": "Hồ Chí Minh",
+    "profile": {
+      "chainProbability": 0.75,
+      "avgIncomePerKm": 14000,
+      "avgWaitingMinutes": 10,
+      "isVanFriendly": false,
+      "hasTimeRestriction": true
+    }
+  },
+  {
+    "districtId": "hcm_tan_binh",
+    "districtName": "Tân Bình",
+    "city": "Hồ Chí Minh",
+    "profile": {
+      "chainProbability": 0.7,
+      "avgIncomePerKm": 13000,
+      "avgWaitingMinutes": 12,
+      "isVanFriendly": false,
+      "hasTimeRestriction": true
+    }
+  },
+  {
+    "districtId": "hcm_tan_phu",
+    "districtName": "Tân Phú",
+    "city": "Hồ Chí Minh",
+    "profile": {
+      "chainProbability": 0.6,
+      "avgIncomePerKm": 11000,
+      "avgWaitingMinutes": 10,
+      "isVanFriendly": true,
+      "hasTimeRestriction": false
+    }
+  },
+  {
+    "districtId": "hcm_binh_chanh",
+    "districtName": "Bình Chánh",
+    "city": "Hồ Chí Minh",
+    "profile": {
+      "chainProbability": 0.4,
+      "avgIncomePerKm": 9000,
+      "avgWaitingMinutes": 5,
+      "isVanFriendly": true,
+      "hasTimeRestriction": false
+    }
+  },
+  {
+    "districtId": "hcm_can_gio",
+    "districtName": "Cần Giờ",
+    "city": "Hồ Chí Minh",
+    "profile": {
+      "chainProbability": 0.1,
+      "avgIncomePerKm": 7000,
+      "avgWaitingMinutes": 2,
+      "isVanFriendly": true,
+      "hasTimeRestriction": false
+    }
+  },
+  {
+    "districtId": "hcm_cu_chi",
+    "districtName": "Củ Chi",
+    "city": "Hồ Chí Minh",
+    "profile": {
+      "chainProbability": 0.2,
+      "avgIncomePerKm": 8000,
+      "avgWaitingMinutes": 3,
+      "isVanFriendly": true,
+      "hasTimeRestriction": false
+    }
+  },
+  {
+    "districtId": "hcm_hoc_mon",
+    "districtName": "Hóc Môn",
+    "city": "Hồ Chí Minh",
+    "profile": {
+      "chainProbability": 0.35,
+      "avgIncomePerKm": 9000,
+      "avgWaitingMinutes": 5,
+      "isVanFriendly": true,
+      "hasTimeRestriction": false
+    }
+  },
+  {
+    "districtId": "hcm_nha_be",
+    "districtName": "Nhà Bè",
+    "city": "Hồ Chí Minh",
+    "profile": {
+      "chainProbability": 0.3,
+      "avgIncomePerKm": 9000,
+      "avgWaitingMinutes": 5,
+      "isVanFriendly": true,
+      "hasTimeRestriction": false
+    }
+  }
+]

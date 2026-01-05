@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../features/order_monitor/presentation/pages/order_monitor_page.dart';
 import '../../features/profit_analytics/presentation/pages/analytics_page.dart';
+import '../pages/evaluation_page.dart';
 import '../../features/order_monitor/presentation/bloc/order_monitor_bloc.dart';
 import '../../features/order_monitor/presentation/bloc/order_monitor_event.dart';
 import '../../features/profit_analytics/presentation/bloc/analytics_bloc.dart';
@@ -18,6 +19,7 @@ class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = const [
+    EvaluationPage(), // Quick Eval as the primary tab
     OrderMonitorPage(),
     AnalyticsPage(),
   ];
@@ -25,7 +27,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    // Initialize streams
     context.read<OrderMonitorBloc>().add(WatchOrdersStarted());
     context.read<AnalyticsBloc>().add(LoadAnalyticsStarted());
   }
@@ -34,7 +35,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('VAN FLOW MVP', style: TextStyle(fontWeight: FontWeight.w800, letterSpacing: 2)),
+        title: const Text('VAN FLOW', style: TextStyle(fontWeight: FontWeight.w800, letterSpacing: 2)),
         backgroundColor: Colors.black,
         elevation: 0,
         centerTitle: true,
@@ -49,8 +50,12 @@ class _MainScreenState extends State<MainScreen> {
         backgroundColor: Colors.grey[900],
         selectedItemColor: Colors.amberAccent,
         unselectedItemColor: Colors.white24,
-        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+        type: BottomNavigationBarType.fixed,
         items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.flash_on),
+            label: 'EVAL',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.radar),
             label: 'MONITOR',

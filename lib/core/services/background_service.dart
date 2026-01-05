@@ -3,10 +3,6 @@ import 'dart:ui';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 import '../injection/injection.dart' as di;
-import '../../features/order_analysis/domain/entities/order_entity.dart';
-import '../../features/order_analysis/domain/repositories/order_repository.dart';
-import '../../features/order_analysis/data/utils/profit_calculator.dart';
-
 Future<void> initializeService() async {
   final service = FlutterBackgroundService();
 

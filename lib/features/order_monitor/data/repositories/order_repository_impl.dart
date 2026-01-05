@@ -1,7 +1,8 @@
 import 'package:isar/isar.dart';
-import '../../domain/entities/order_entity.dart';
+import 'package:van_flow/core/models/order_mappers.dart';
+import 'package:van_flow/core/models/order_model.dart';
+import '../../../../core/models/order_entity.dart';
 import '../../domain/repositories/order_repository.dart';
-import '../models/order_model.dart';
 
 class OrderRepositoryImpl implements OrderRepository {
   final Isar isar;
@@ -11,7 +12,7 @@ class OrderRepositoryImpl implements OrderRepository {
   @override
   Future<void> saveOrder(OrderEntity order) async {
     await isar.writeTxn(() async {
-      await isar.orderModels.put(OrderModel.fromEntity(order));
+      await isar.orderModels.put(order.toModel());
     });
   }
 
