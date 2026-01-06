@@ -87,5 +87,27 @@ lib/
 ## ⚖️ Disclaimer
 Ứng dụng này là một công cụ hỗ trợ quyết định cá nhân, 100% logic cục bộ, không can thiệp vào API của bất kỳ nền tảng giao hàng nào, đảm bảo an toàn tuyệt đối cho tài khoản của tài xế.
 
+# Q&A
+### ❓ Tại sao lại là con số 40,000đ trong Chain Bonus?
+
+Trong công thức chấm điểm, chúng tôi sử dụng phép tính: `districtProfile.chainProbability * 40000`. Đây không phải là con số ngẫu nhiên, mà là **Giá trị kỳ vọng của thu nhập tiềm năng (Expected Value)**.
+
+#### 1. Con số 40,000đ nghĩa là gì?
+Nó đại diện cho **lợi nhuận ròng trung bình** mà một tài xế xe van 945kg mong đợi kiếm được từ một đơn hàng tiếp theo.
+*   Tại TP.HCM, sau khi trừ chi phí nhiên liệu, một đơn hàng ngắn/trung bình thường để lại lợi nhuận khoảng 30,000đ - 50,000đ. Chúng tôi chọn **40,000đ** làm mốc chuẩn để tính toán.
+
+#### 2. Tại sao lại nhân Tỉ lệ (Probability) với 40,000đ?
+Đây là cách hệ thống định giá "cơ hội". Hãy so sánh 2 kịch bản trả hàng:
+*   **Khu vực A (Quận 1 - Tỉ lệ nối đơn 0.9):** `0.9 * 40,000 = 36,000đ`. Hệ thống hiểu là: *"Nếu bạn đến đây, bạn gần như chắc chắn bỏ túi thêm 36k nữa. Đơn hàng hiện tại dù giá hơi thấp vẫn cực kỳ đáng làm."*
+*   **Khu vực B (Huyện Cần Giờ - Tỉ lệ nối đơn 0.1):** `0.1 * 40,000 = 4,000đ`. Hệ thống hiểu là: *"Đến đây xong khả năng cao là phải chạy xe không về. Đơn này phải trả giá rất cao mới bõ công chạy."*
+
+#### 3. Ý nghĩa thực chiến: "Chạy đi thì dễ, chạy về mới khó"
+Việc đưa con số 40,000đ vào thuật toán giúp giải quyết 3 bài toán lớn của tài xế van:
+*   **Bù đắp rủi ro "vùng trắng":** Tự động trừ điểm các khu vực hẻo lánh để bảo vệ bạn khỏi việc cháy xăng khi chạy xe không về trung tâm.
+*   **Định giá sự tiện lợi:** Đây giống như một khoản "tiền thưởng ảo" giúp bạn ưu tiên những đơn hàng đưa bạn đến các "vùng xanh" (kho bãi, khu công nghiệp).
+*   **Tính đồng nhất:** Giúp mọi chỉ số (Km rỗng, thời gian kẹt xe) đều được quy về một đơn vị duy nhất là **Tiền (VND)** để đưa ra quyết định chính xác nhất.
+
+> **💡 Mẹo:** Bạn có thể tùy chỉnh con số này trong `ScoreEngine`. Nếu bạn định giá mỗi đơn hàng của mình cao hơn, hãy nâng nó lên 60,000đ. Đây là cách bạn "dạy" VanFlow hiểu giá trị thời gian của chính mình.
+h con số này chính là cách bạn "dạy" cho ứng dụng Van Flow biết bạn định giá thời gian và cơ hội của mình bao nhiêu tiền.
 ---
 Developed with ❤️ by Senior Flutter Engineer.
