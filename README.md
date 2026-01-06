@@ -23,6 +23,29 @@ Cập nhật xác suất nổ đơn (Chain Probability) của từng quận:
 `P(new) = P(old) * 0.8 + (Result * 0.2)`
 *(Trong đó Result = 1 nếu có đơn nối, = 0 nếu chạy rỗng)*
 
+### 3. 🧠 Cơ chế "Bộ não" Quyết định (Scoring Engine)
+Tại sao VanFlow biết đơn hàng nào "ngon", đơn hàng nào "xương"? Không chỉ nhìn vào giá cước, hệ thống sử dụng thuật toán **Cân bằng Kinh tế Chuyến đi** để chấm điểm:
+#### ⚖️ Công thức này hoạt động như thế nào?
+
+Chúng tôi không tính bằng tiền, chúng tôi tính bằng **"Điểm giá trị thực tế"**:
+
+1.  **Tiền tươi (Fee):** Điểm cộng ban đầu chính là giá cước bạn nhìn thấy.
+2.  **Km Rỗng (Empty Km) x 9,000đ:** Đây là "chi phí cơ hội". Cứ mỗi km bạn chạy không để đến điểm nhận, bạn mất đi xăng xe, khấu hao và thời gian quý báu.
+3.  **Phút tắc đường (Traffic) x 3,000đ:** Kẹt xe là kẻ thù của xe van. 3,000đ/phút là cái giá để bù đắp cho sự mệt mỏi và lượng xăng tiêu hao gấp đôi khi nhích từng mét trên đường phố TP.HCM.
+4.  **Xác suất nối đơn (Chain Bonus) + 40,000đ:** Đây là "vùng xanh". Nếu trả hàng ở một quận dễ có đơn mới, hệ thống sẽ cộng thưởng để khuyến khích bạn nhận đơn, vì hành trình của bạn sẽ không kết thúc ở đó.
+5.  **Hình phạt đặc thù (Penalties):** Trừ điểm nặng nếu hẻm nhỏ khó vào (`isVanFriendly`) hoặc khu vực đang trong giờ cấm tải (`hasTimeRestriction`).
+
+### 🚦 Hệ thống đèn tín hiệu (Decision Making)
+
+Thay vì để tài xế phải nhẩm tính con số lẻ, VanFlow trả về 3 trạng thái trực quan:
+
+*   **✅ CHẤP NHẬN (Score > 40k):** "Kèo thơm"! Đơn hàng có lợi nhuận cao, đường thoáng, khả năng nổ đơn tiếp theo cực lớn. Bấm nhận ngay kẻo lỡ!
+*   **⚠️ CÂN NHẮC (Score 0 - 40k):** "Đủ sống". Có thể làm nếu bạn đang cần chạy đủ chỉ tiêu hoặc muốn di chuyển về hướng đó.
+*   **❌ TỪ CHỐI (Score < 0):** "Đơn hành xác". Sau khi trừ mọi chi phí và rủi ro, bạn đang làm không công hoặc thậm chí lỗ vốn. Tốt nhất nên bỏ qua để đợi kèo khác.
+
+> **Triết lý của VanFlow:** "Đôi khi từ chối một đơn hàng xấu chính là cách nhanh nhất để gia tăng thu nhập cuối ngày."
+
+
 ## 🏗 Kiến trúc dự án (Architecture)
 
 Dự án áp dụng **Clean Architecture** kết hợp với cấu trúc **Feature-first** để đảm bảo tính mở rộng và dễ bảo trì:
