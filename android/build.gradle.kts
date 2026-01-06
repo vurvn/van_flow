@@ -15,7 +15,15 @@ subprojects {
 
 subprojects {
     afterEvaluate {
+
         if (project.extensions.findByName("android") != null) {
+            plugins.withType<com.android.build.gradle.api.AndroidBasePlugin> {
+                configure<com.android.build.gradle.BaseExtension> {
+                    if (namespace == null) {
+                        namespace = project.group.toString()
+                    }
+                }
+            }
             configure<com.android.build.gradle.BaseExtension> {
                 // Force all libraries to compile against SDK 34 (stable) or 36
                 // Using 34 as it's the current standard required by many libraries
