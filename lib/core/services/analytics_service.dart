@@ -2,6 +2,7 @@ import 'package:isar/isar.dart';
 import '../models/district_profile.dart';
 import '../models/order_model.dart';
 import '../utils/profit_calculator.dart';
+import '../utils/app_constants.dart';
 
 class AnalyticsService {
   final Isar isar;
@@ -23,8 +24,10 @@ class AnalyticsService {
           .findFirst();
 
       if (profile != null) {
-        // Cập nhật xác suất nối đơn (Chain Probability)
-        profile.chainProbability = (profile.chainProbability * 0.8) + (wasChained ? 0.2 : 0);
+        // Thuật toán Học máy (Reinforcement Learning)
+        profile.chainProbability = 
+            (profile.chainProbability * AppConstants.learningRecencyWeight) + 
+            (wasChained ? AppConstants.learningNewDataWeight : 0);
         
         // Cập nhật tổng số liệu
         profile.totalIncome += revenue;

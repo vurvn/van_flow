@@ -123,7 +123,7 @@ class _OrderCard extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  '${order.distance} km',
+                  '${order.distance.toStringAsFixed(1)} km',
                   style: const TextStyle(color: Colors.white70, fontSize: 14),
                 ),
               ],

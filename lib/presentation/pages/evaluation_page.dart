@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../core/services/district_service.dart';
 import '../../core/utils/score_engine.dart';
+import '../../core/utils/profit_calculator.dart';
+import '../../core/utils/app_constants.dart';
 import 'evaluation_result_page.dart';
 
 class EvaluationPage extends StatefulWidget {
@@ -11,11 +13,6 @@ class EvaluationPage extends StatefulWidget {
 }
 
 class _EvaluationPageState extends State<EvaluationPage> {
-  // Constants for calculation
-  static const double fuelPrice = 21.050; // VND/Litre
-  static const double kmPerLitre = 10.0;
-  static const double maintenancePerKm = 1150; // Wear & tear, oil, tires
-  
   double _fee = 150000;
   double _emptyKm = 2.0;
   double _deliveryKm = 10.0;
@@ -41,12 +38,6 @@ class _EvaluationPageState extends State<EvaluationPage> {
       }
       _isLoading = false;
     });
-  }
-
-  double _calculateTotalCost(double totalKm) {
-    double fuelCost = (totalKm / kmPerLitre) * fuelPrice;
-    double maintenanceCost = totalKm * maintenancePerKm;
-    return fuelCost + maintenanceCost;
   }
 
   void _evaluate() {
@@ -85,8 +76,8 @@ class _EvaluationPageState extends State<EvaluationPage> {
     }
 
     final double totalKm = _emptyKm + _deliveryKm;
-    final double totalCost = _calculateTotalCost(totalKm);
-    final double netProfit = _fee - totalCost;
+    final double netProfit = ProfitCalculator.calculateNetProfit(_fee, totalKm);
+    final double totalCost = ProfitCalculator.calculateTotalCost(totalKm);
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -112,6 +103,7 @@ class _EvaluationPageState extends State<EvaluationPage> {
                       activeColor: Colors.amberAccent,
                       onChanged: (val) => setState(() => _fee = val),
                     ),
+
                     _buildSectionTitle('ĐI TRỐNG: ${_emptyKm.toStringAsFixed(1)} KM'),
                     Slider(
                       value: _emptyKm,
@@ -180,7 +172,7 @@ class _EvaluationPageState extends State<EvaluationPage> {
           ),
           const SizedBox(height: 4),
           Text(
-            profit > 0 ? "ĐỊNH MỨC: 10KM/LÍT + KHẤU HAO" : "CẢNH BÁO: CHUYẾN ĐI LỖ VỐN",
+            profit > 0 ? "ĐỊNH MỨC: ${AppConstants.kmPerLiter.toStringAsFixed(0)}KM/LÍT + KHẤU HAO" : "CẢNH BÁO: CHUYẾN ĐI LỖ VỐN",
             style: TextStyle(color: profit > 0 ? Colors.white24 : Colors.redAccent.withOpacity(0.5), fontSize: 10),
           ),
         ],

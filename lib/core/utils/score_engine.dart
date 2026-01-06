@@ -1,4 +1,5 @@
 import '../models/district_profile.dart';
+import 'app_constants.dart';
 
 enum Decision { accept, consider, reject }
 
@@ -16,26 +17,25 @@ class OrderInput {
 
 class ScoreEngine {
   static double calculateScore(OrderInput order, DistrictProfile districtProfile) {
-    // Score = Fee
-    //       - (EmptyKm * 9000)
-    //       - (TrafficMinutes * 3000)
-    //       + (district.chainProbability * 40000)
-    //       - (district penalties/restrictions)
-    
-    double penalties = districtProfile.hasTimeRestriction ? 5000 : 0;
-    if (!districtProfile.isVanFriendly) penalties += 10000;
+    double penalties = districtProfile.hasTimeRestriction 
+        ? AppConstants.penaltyTimeRestricted 
+        : 0;
+        
+    if (!districtProfile.isVanFriendly) {
+      penalties += AppConstants.penaltyVanUnfriendly;
+    }
 
     return order.fee -
-        (order.emptyKm * 9000) -
-        (order.trafficMinutes * 3000) +
-        (districtProfile.chainProbability * 40000) -
+        (order.emptyKm * AppConstants.scoreEmptyKmWeight) -
+        (order.trafficMinutes * AppConstants.scoreTrafficWeight) +
+        (districtProfile.chainProbability * AppConstants.scoreChainProbWeight) -
         penalties;
   }
 
   static Decision decisionFromScore(double score) {
-    if (score >= 40000) {
+    if (score >= AppConstants.thresholdAccept) {
       return Decision.accept;
-    } else if (score >= 0) {
+    } else if (score >= AppConstants.thresholdConsider) {
       return Decision.consider;
     } else {
       return Decision.reject;

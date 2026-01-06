@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/models/order_entity.dart';
-import '../../../../core/models/order_mappers.dart';
 import '../../../../core/models/income_summary.dart';
 import '../../../order_monitor/domain/repositories/order_repository.dart';
 import 'analytics_event.dart';
