@@ -8,6 +8,7 @@ class OrderEntity extends Equatable {
   final DateTime timestamp;
   final double netProfit;
   final String? districtId;
+  final bool isCompleted;
 
   const OrderEntity({
     this.id,
@@ -17,15 +18,9 @@ class OrderEntity extends Equatable {
     required this.timestamp,
     required this.netProfit,
     this.districtId,
+    this.isCompleted = false,
   });
 
   @override
-  List<Object?> get props => [id, platform, revenue, distance, timestamp, netProfit, districtId];
-
-  @override
-  String toString() {
-
-    return super.toString();
-  }
-
+  List<Object?> get props => [id, platform, revenue, distance, timestamp, netProfit, districtId, isCompleted];
 }

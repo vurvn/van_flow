@@ -30,12 +30,15 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
   Future<void> _onOnNewOrderCaptured(
       OnNewOrderCaptured event, Emitter<OrderState> emit) async {
+
     final netProfit = ProfitCalculator.calculateNetProfit(event.price, event.distance);
-    
+
     final order = OrderEntity(
-      platform: "Captured",
+      // FIX: Use data from the event instead of hardcoding
+      platform: event.platform ?? "Captured",
       revenue: event.price,
       distance: event.distance,
+      districtId: event.districtId, // ENSURE THIS IS IN YOUR OrderEntity
       timestamp: DateTime.now(),
       netProfit: netProfit,
     );

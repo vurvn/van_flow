@@ -54,15 +54,15 @@ class _MainScreenState extends State<MainScreen> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.flash_on),
-            label: 'EVAL',
+            label: 'ĐÁNH GIÁ',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.radar),
-            label: 'MONITOR',
+            label: 'THEO DÕI',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.bar_chart),
-            label: 'ANALYTICS',
+            label: 'PHÂN TÍCH',
           ),
         ],
       ),

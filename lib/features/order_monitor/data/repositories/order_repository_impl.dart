@@ -1,7 +1,7 @@
 import 'package:isar/isar.dart';
-import 'package:van_flow/core/models/order_mappers.dart';
-import 'package:van_flow/core/models/order_model.dart';
 import '../../../../core/models/order_entity.dart';
+import '../../../../core/models/order_model.dart';
+import '../../../../core/models/order_mappers.dart';
 import '../../domain/repositories/order_repository.dart';
 
 class OrderRepositoryImpl implements OrderRepository {
@@ -18,6 +18,7 @@ class OrderRepositoryImpl implements OrderRepository {
 
   @override
   Stream<List<OrderEntity>> watchOrders() {
+    // Watch ALL orders so drivers can see and update completed ones
     return isar.orderModels
         .where()
         .sortByTimestampDesc()

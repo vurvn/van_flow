@@ -32,28 +32,33 @@ const OrderModelSchema = CollectionSchema(
       name: r'durationHours',
       type: IsarType.double,
     ),
-    r'netProfit': PropertySchema(
+    r'isCompleted': PropertySchema(
       id: 3,
+      name: r'isCompleted',
+      type: IsarType.bool,
+    ),
+    r'netProfit': PropertySchema(
+      id: 4,
       name: r'netProfit',
       type: IsarType.double,
     ),
     r'platform': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'platform',
       type: IsarType.string,
     ),
     r'revenue': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'revenue',
       type: IsarType.double,
     ),
     r'timestamp': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'timestamp',
       type: IsarType.dateTime,
     ),
     r'wasChained': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'wasChained',
       type: IsarType.bool,
     )
@@ -97,11 +102,12 @@ void _orderModelSerialize(
   writer.writeDouble(offsets[0], object.distance);
   writer.writeString(offsets[1], object.districtId);
   writer.writeDouble(offsets[2], object.durationHours);
-  writer.writeDouble(offsets[3], object.netProfit);
-  writer.writeString(offsets[4], object.platform);
-  writer.writeDouble(offsets[5], object.revenue);
-  writer.writeDateTime(offsets[6], object.timestamp);
-  writer.writeBool(offsets[7], object.wasChained);
+  writer.writeBool(offsets[3], object.isCompleted);
+  writer.writeDouble(offsets[4], object.netProfit);
+  writer.writeString(offsets[5], object.platform);
+  writer.writeDouble(offsets[6], object.revenue);
+  writer.writeDateTime(offsets[7], object.timestamp);
+  writer.writeBool(offsets[8], object.wasChained);
 }
 
 OrderModel _orderModelDeserialize(
@@ -115,11 +121,12 @@ OrderModel _orderModelDeserialize(
   object.districtId = reader.readStringOrNull(offsets[1]);
   object.durationHours = reader.readDoubleOrNull(offsets[2]);
   object.id = id;
-  object.netProfit = reader.readDouble(offsets[3]);
-  object.platform = reader.readString(offsets[4]);
-  object.revenue = reader.readDouble(offsets[5]);
-  object.timestamp = reader.readDateTime(offsets[6]);
-  object.wasChained = reader.readBoolOrNull(offsets[7]);
+  object.isCompleted = reader.readBool(offsets[3]);
+  object.netProfit = reader.readDouble(offsets[4]);
+  object.platform = reader.readString(offsets[5]);
+  object.revenue = reader.readDouble(offsets[6]);
+  object.timestamp = reader.readDateTime(offsets[7]);
+  object.wasChained = reader.readBoolOrNull(offsets[8]);
   return object;
 }
 
@@ -137,14 +144,16 @@ P _orderModelDeserializeProp<P>(
     case 2:
       return (reader.readDoubleOrNull(offset)) as P;
     case 3:
-      return (reader.readDouble(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 4:
-      return (reader.readString(offset)) as P;
-    case 5:
       return (reader.readDouble(offset)) as P;
+    case 5:
+      return (reader.readString(offset)) as P;
     case 6:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readDouble(offset)) as P;
     case 7:
+      return (reader.readDateTime(offset)) as P;
+    case 8:
       return (reader.readBoolOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -595,6 +604,16 @@ extension OrderModelQueryFilter
     });
   }
 
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      isCompletedEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isCompleted',
+        value: value,
+      ));
+    });
+  }
+
   QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition> netProfitEqualTo(
     double value, {
     double epsilon = Query.epsilon,
@@ -982,6 +1001,18 @@ extension OrderModelQuerySortBy
     });
   }
 
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy> sortByIsCompleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isCompleted', Sort.asc);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy> sortByIsCompletedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isCompleted', Sort.desc);
+    });
+  }
+
   QueryBuilder<OrderModel, OrderModel, QAfterSortBy> sortByNetProfit() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'netProfit', Sort.asc);
@@ -1093,6 +1124,18 @@ extension OrderModelQuerySortThenBy
     });
   }
 
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy> thenByIsCompleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isCompleted', Sort.asc);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy> thenByIsCompletedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isCompleted', Sort.desc);
+    });
+  }
+
   QueryBuilder<OrderModel, OrderModel, QAfterSortBy> thenByNetProfit() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'netProfit', Sort.asc);
@@ -1175,6 +1218,12 @@ extension OrderModelQueryWhereDistinct
     });
   }
 
+  QueryBuilder<OrderModel, OrderModel, QDistinct> distinctByIsCompleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isCompleted');
+    });
+  }
+
   QueryBuilder<OrderModel, OrderModel, QDistinct> distinctByNetProfit() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'netProfit');
@@ -1230,6 +1279,12 @@ extension OrderModelQueryProperty
   QueryBuilder<OrderModel, double?, QQueryOperations> durationHoursProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'durationHours');
+    });
+  }
+
+  QueryBuilder<OrderModel, bool, QQueryOperations> isCompletedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isCompleted');
     });
   }
 

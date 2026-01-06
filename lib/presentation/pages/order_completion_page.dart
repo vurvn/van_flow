@@ -3,6 +3,7 @@ import '../../core/injection/injection.dart';
 import '../../core/services/analytics_service.dart';
 
 class OrderCompletionPage extends StatefulWidget {
+  final int? orderId; // Added to support updating existing orders
   final String districtId;
   final String districtName;
   final double revenue;
@@ -10,6 +11,7 @@ class OrderCompletionPage extends StatefulWidget {
 
   const OrderCompletionPage({
     super.key,
+    this.orderId,
     required this.districtId,
     required this.districtName,
     required this.revenue,
@@ -28,6 +30,7 @@ class _OrderCompletionPageState extends State<OrderCompletionPage> {
     if (_wasChained == null) return;
 
     await sl<AnalyticsService>().recordOrderExecution(
+      orderId: widget.orderId,
       districtId: widget.districtId,
       revenue: widget.revenue,
       distance: widget.distance,

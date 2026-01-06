@@ -16,4 +16,6 @@ class OrderModel {
   String? districtId;
   bool? wasChained;
   double? durationHours;
+  
+  bool isCompleted = false; // Added flag to distinguish between active and historical orders
 }

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/models/order_entity.dart';
@@ -31,11 +29,11 @@ class OrderMonitorPage extends StatelessWidget {
                     },
                   ),
                 ),
-                _buildActionButtons(context),
+                // _buildActionButtons(context),
               ],
             );
           }
-          return const Center(child: Text('Start monitoring to see orders', style: TextStyle(color: Colors.white70)));
+          return const Center(child: Text('Bắt đầu theo dõi để xem đơn hàng', style: TextStyle(color: Colors.white70)));
         },
       ),
     );
@@ -54,7 +52,7 @@ class OrderMonitorPage extends StatelessWidget {
           minimumSize: const Size(double.infinity, 60),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
-        child: const Text('SIMULATE NEW ORDER', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        child: const Text('GIẢ LẬP ĐƠN MỚI', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
       ),
     );
   }
@@ -71,14 +69,14 @@ class _OrderCard extends StatelessWidget {
     
     return InkWell(
       onLongPress: () {
-        log('Order completed: $order');
         if (order.districtId != null) {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => OrderCompletionPage(
+                orderId: order.id,
                 districtId: order.districtId!,
-                districtName: "Order Location", // In a real app, you'd have the name
+                districtName: "Đơn hàng #${order.id}",
                 revenue: order.revenue,
                 distance: order.distance,
               ),
@@ -93,7 +91,9 @@ class _OrderCard extends StatelessWidget {
           color: Colors.grey[900],
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isHighProfit ? Colors.greenAccent : Colors.amberAccent,
+            color: order.isCompleted 
+                ? Colors.blueAccent 
+                : (isHighProfit ? Colors.greenAccent : Colors.amberAccent),
             width: 2,
           ),
         ),
@@ -103,9 +103,24 @@ class _OrderCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  order.platform.toUpperCase(),
-                  style: const TextStyle(color: Colors.white70, fontSize: 14, fontWeight: FontWeight.bold),
+                Row(
+                  children: [
+                    Text(
+                      order.platform.toUpperCase(),
+                      style: const TextStyle(color: Colors.white70, fontSize: 14, fontWeight: FontWeight.bold),
+                    ),
+                    if (order.isCompleted) ...[
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: Colors.blueAccent.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: const Text('XONG', style: TextStyle(color: Colors.blueAccent, fontSize: 10, fontWeight: FontWeight.bold)),
+                      ),
+                    ]
+                  ],
                 ),
                 Text(
                   '${order.distance} km',
@@ -115,21 +130,23 @@ class _OrderCard extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             const Text(
-              'NET PROFIT',
+              'LỢI NHUẬN RÒNG',
               style: TextStyle(color: Colors.white60, fontSize: 12),
             ),
             Text(
               '${order.netProfit.toStringAsFixed(0)} VND',
               style: TextStyle(
-                color: isHighProfit ? Colors.greenAccent : Colors.amberAccent,
+                color: order.isCompleted 
+                    ? Colors.white 
+                    : (isHighProfit ? Colors.greenAccent : Colors.amberAccent),
                 fontSize: 32,
                 fontWeight: FontWeight.w800,
               ),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'HOLD TO COMPLETE & LEARN',
-              style: TextStyle(color: Colors.white24, fontSize: 10, fontStyle: FontStyle.italic),
+            Text(
+              order.isCompleted ? 'NHẤN GIỮ ĐỂ CẬP NHẬT LẠI' : 'NHẤN GIỮ ĐỂ HOÀN THÀNH & HỌC MÁY',
+              style: const TextStyle(color: Colors.white24, fontSize: 10, fontStyle: FontStyle.italic),
             ),
           ],
         ),

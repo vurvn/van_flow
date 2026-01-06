@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import '../../core/injection/injection.dart';
 import '../../core/models/district_profile.dart';
+import '../../core/models/order_entity.dart';
 import '../../core/utils/score_engine.dart';
-import 'order_completion_page.dart';
+import '../../core/utils/profit_calculator.dart';
+import '../../features/order_monitor/domain/repositories/order_repository.dart';
 
 class EvaluationResultPage extends StatelessWidget {
   final double score;
@@ -93,7 +96,7 @@ class EvaluationResultPage extends StatelessWidget {
         backgroundColor: Colors.grey[900],
         title: const Text('LƯU CHUYẾN ĐI?', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         content: const Text(
-          'Bạn có chấp nhận đơn này không? Lưu lại để hệ thống học (Learning Engine) và phân tích thu nhập.',
+          'Bạn có chấp nhận đơn này không? Đơn sẽ được lưu vào danh sách theo dõi để bạn hoàn thành sau.',
           style: TextStyle(color: Colors.white70),
         ),
         actions: [
@@ -105,19 +108,32 @@ class EvaluationResultPage extends StatelessWidget {
             child: const Text('KHÔNG LƯU', style: TextStyle(color: Colors.white54)),
           ),
           ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context); // Đóng dialog
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => OrderCompletionPage(
-                    districtId: profile.districtId,
-                    districtName: "Đơn vừa đánh giá",
-                    revenue: revenue,
-                    distance: distance,
-                  ),
-                ),
+            onPressed: () async {
+              // Sử dụng ProfitCalculator thống nhất toàn app
+              final netProfit = ProfitCalculator.calculateNetProfit(revenue, distance);
+              
+              final order = OrderEntity(
+                platform: "Đánh giá",
+                revenue: revenue,
+                distance: distance,
+                timestamp: DateTime.now(),
+                netProfit: netProfit,
+                districtId: profile.districtId,
+                isCompleted: false,
               );
+
+              await sl<OrderRepository>().saveOrder(order);
+
+              if (context.mounted) {
+                Navigator.pop(context); // Đóng dialog
+                Navigator.pop(context); // Quay lại màn hình Eval
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Đã lưu đơn hàng vào danh sách theo dõi!'),
+                    backgroundColor: Colors.blueAccent,
+                  ),
+                );
+              }
             },
             style: ElevatedButton.styleFrom(backgroundColor: Colors.amberAccent, foregroundColor: Colors.black),
             child: const Text('CHẤP NHẬN & LƯU', style: TextStyle(fontWeight: FontWeight.bold)),
