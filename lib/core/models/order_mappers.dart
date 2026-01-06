@@ -11,7 +11,10 @@ extension OrderEntityMapper on OrderEntity {
       ..distance = distance
       ..timestamp = timestamp
       ..netProfit = netProfit
-      ..districtId = districtId
+      ..startDistrictId = startDistrictId
+      ..startDistrictName = startDistrictName
+      ..targetDistrictId = targetDistrictId
+      ..targetDistrictName = targetDistrictName
       ..isCompleted = isCompleted;
   }
 }
@@ -25,7 +28,10 @@ extension OrderModelMapper on OrderModel {
       distance: distance,
       timestamp: timestamp,
       netProfit: netProfit,
-      districtId: districtId,
+      startDistrictId: startDistrictId,
+      startDistrictName: startDistrictName,
+      targetDistrictId: targetDistrictId,
+      targetDistrictName: targetDistrictName,
       isCompleted: isCompleted,
     );
   }

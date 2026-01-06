@@ -12,6 +12,8 @@ class EvaluationResultPage extends StatelessWidget {
   final DistrictProfile profile;
   final double revenue;
   final double distance;
+  final String? startDistrictName;
+  final String? targetDistrictName;
 
   const EvaluationResultPage({
     super.key,
@@ -20,6 +22,8 @@ class EvaluationResultPage extends StatelessWidget {
     required this.profile,
     required this.revenue,
     required this.distance,
+    this.startDistrictName,
+    this.targetDistrictName,
   });
 
   @override
@@ -109,7 +113,6 @@ class EvaluationResultPage extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () async {
-              // Sử dụng ProfitCalculator thống nhất toàn app
               final netProfit = ProfitCalculator.calculateNetProfit(revenue, distance);
               
               final order = OrderEntity(
@@ -118,7 +121,9 @@ class EvaluationResultPage extends StatelessWidget {
                 distance: distance,
                 timestamp: DateTime.now(),
                 netProfit: netProfit,
-                districtId: profile.districtId,
+                startDistrictName: startDistrictName,
+                targetDistrictId: profile.districtId,
+                targetDistrictName: targetDistrictName,
                 isCompleted: false,
               );
 

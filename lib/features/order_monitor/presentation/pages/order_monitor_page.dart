@@ -69,14 +69,15 @@ class _OrderCard extends StatelessWidget {
     
     return InkWell(
       onLongPress: () {
-        if (order.districtId != null) {
+        if (order.targetDistrictId != null) {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => OrderCompletionPage(
                 orderId: order.id,
-                districtId: order.districtId!,
-                districtName: "Đơn hàng #${order.id}",
+                startDistrictName: order.startDistrictName,
+                targetDistrictName: order.targetDistrictName,
+                districtId: order.targetDistrictId!,
                 revenue: order.revenue,
                 distance: order.distance,
               ),

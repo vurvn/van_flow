@@ -22,43 +22,58 @@ const OrderModelSchema = CollectionSchema(
       name: r'distance',
       type: IsarType.double,
     ),
-    r'districtId': PropertySchema(
-      id: 1,
-      name: r'districtId',
-      type: IsarType.string,
-    ),
     r'durationHours': PropertySchema(
-      id: 2,
+      id: 1,
       name: r'durationHours',
       type: IsarType.double,
     ),
     r'isCompleted': PropertySchema(
-      id: 3,
+      id: 2,
       name: r'isCompleted',
       type: IsarType.bool,
     ),
     r'netProfit': PropertySchema(
-      id: 4,
+      id: 3,
       name: r'netProfit',
       type: IsarType.double,
     ),
     r'platform': PropertySchema(
-      id: 5,
+      id: 4,
       name: r'platform',
       type: IsarType.string,
     ),
     r'revenue': PropertySchema(
-      id: 6,
+      id: 5,
       name: r'revenue',
       type: IsarType.double,
     ),
-    r'timestamp': PropertySchema(
+    r'startDistrictId': PropertySchema(
+      id: 6,
+      name: r'startDistrictId',
+      type: IsarType.string,
+    ),
+    r'startDistrictName': PropertySchema(
       id: 7,
+      name: r'startDistrictName',
+      type: IsarType.string,
+    ),
+    r'targetDistrictId': PropertySchema(
+      id: 8,
+      name: r'targetDistrictId',
+      type: IsarType.string,
+    ),
+    r'targetDistrictName': PropertySchema(
+      id: 9,
+      name: r'targetDistrictName',
+      type: IsarType.string,
+    ),
+    r'timestamp': PropertySchema(
+      id: 10,
       name: r'timestamp',
       type: IsarType.dateTime,
     ),
     r'wasChained': PropertySchema(
-      id: 8,
+      id: 11,
       name: r'wasChained',
       type: IsarType.bool,
     )
@@ -83,13 +98,31 @@ int _orderModelEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  bytesCount += 3 + object.platform.length * 3;
   {
-    final value = object.districtId;
+    final value = object.startDistrictId;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
   }
-  bytesCount += 3 + object.platform.length * 3;
+  {
+    final value = object.startDistrictName;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.targetDistrictId;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.targetDistrictName;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -100,14 +133,17 @@ void _orderModelSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeDouble(offsets[0], object.distance);
-  writer.writeString(offsets[1], object.districtId);
-  writer.writeDouble(offsets[2], object.durationHours);
-  writer.writeBool(offsets[3], object.isCompleted);
-  writer.writeDouble(offsets[4], object.netProfit);
-  writer.writeString(offsets[5], object.platform);
-  writer.writeDouble(offsets[6], object.revenue);
-  writer.writeDateTime(offsets[7], object.timestamp);
-  writer.writeBool(offsets[8], object.wasChained);
+  writer.writeDouble(offsets[1], object.durationHours);
+  writer.writeBool(offsets[2], object.isCompleted);
+  writer.writeDouble(offsets[3], object.netProfit);
+  writer.writeString(offsets[4], object.platform);
+  writer.writeDouble(offsets[5], object.revenue);
+  writer.writeString(offsets[6], object.startDistrictId);
+  writer.writeString(offsets[7], object.startDistrictName);
+  writer.writeString(offsets[8], object.targetDistrictId);
+  writer.writeString(offsets[9], object.targetDistrictName);
+  writer.writeDateTime(offsets[10], object.timestamp);
+  writer.writeBool(offsets[11], object.wasChained);
 }
 
 OrderModel _orderModelDeserialize(
@@ -118,15 +154,18 @@ OrderModel _orderModelDeserialize(
 ) {
   final object = OrderModel();
   object.distance = reader.readDouble(offsets[0]);
-  object.districtId = reader.readStringOrNull(offsets[1]);
-  object.durationHours = reader.readDoubleOrNull(offsets[2]);
+  object.durationHours = reader.readDoubleOrNull(offsets[1]);
   object.id = id;
-  object.isCompleted = reader.readBool(offsets[3]);
-  object.netProfit = reader.readDouble(offsets[4]);
-  object.platform = reader.readString(offsets[5]);
-  object.revenue = reader.readDouble(offsets[6]);
-  object.timestamp = reader.readDateTime(offsets[7]);
-  object.wasChained = reader.readBoolOrNull(offsets[8]);
+  object.isCompleted = reader.readBool(offsets[2]);
+  object.netProfit = reader.readDouble(offsets[3]);
+  object.platform = reader.readString(offsets[4]);
+  object.revenue = reader.readDouble(offsets[5]);
+  object.startDistrictId = reader.readStringOrNull(offsets[6]);
+  object.startDistrictName = reader.readStringOrNull(offsets[7]);
+  object.targetDistrictId = reader.readStringOrNull(offsets[8]);
+  object.targetDistrictName = reader.readStringOrNull(offsets[9]);
+  object.timestamp = reader.readDateTime(offsets[10]);
+  object.wasChained = reader.readBoolOrNull(offsets[11]);
   return object;
 }
 
@@ -140,20 +179,26 @@ P _orderModelDeserializeProp<P>(
     case 0:
       return (reader.readDouble(offset)) as P;
     case 1:
-      return (reader.readStringOrNull(offset)) as P;
-    case 2:
       return (reader.readDoubleOrNull(offset)) as P;
-    case 3:
+    case 2:
       return (reader.readBool(offset)) as P;
+    case 3:
+      return (reader.readDouble(offset)) as P;
     case 4:
-      return (reader.readDouble(offset)) as P;
-    case 5:
       return (reader.readString(offset)) as P;
-    case 6:
+    case 5:
       return (reader.readDouble(offset)) as P;
+    case 6:
+      return (reader.readStringOrNull(offset)) as P;
     case 7:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 8:
+      return (reader.readStringOrNull(offset)) as P;
+    case 9:
+      return (reader.readStringOrNull(offset)) as P;
+    case 10:
+      return (reader.readDateTime(offset)) as P;
+    case 11:
       return (reader.readBoolOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -310,159 +355,6 @@ extension OrderModelQueryFilter
         upper: upper,
         includeUpper: includeUpper,
         epsilon: epsilon,
-      ));
-    });
-  }
-
-  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
-      districtIdIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'districtId',
-      ));
-    });
-  }
-
-  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
-      districtIdIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'districtId',
-      ));
-    });
-  }
-
-  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition> districtIdEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'districtId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
-      districtIdGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'districtId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
-      districtIdLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'districtId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition> districtIdBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'districtId',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
-      districtIdStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'districtId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
-      districtIdEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'districtId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
-      districtIdContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'districtId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition> districtIdMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'districtId',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
-      districtIdIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'districtId',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
-      districtIdIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'districtId',
-        value: '',
       ));
     });
   }
@@ -874,6 +766,622 @@ extension OrderModelQueryFilter
     });
   }
 
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      startDistrictIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'startDistrictId',
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      startDistrictIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'startDistrictId',
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      startDistrictIdEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'startDistrictId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      startDistrictIdGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'startDistrictId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      startDistrictIdLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'startDistrictId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      startDistrictIdBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'startDistrictId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      startDistrictIdStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'startDistrictId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      startDistrictIdEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'startDistrictId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      startDistrictIdContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'startDistrictId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      startDistrictIdMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'startDistrictId',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      startDistrictIdIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'startDistrictId',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      startDistrictIdIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'startDistrictId',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      startDistrictNameIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'startDistrictName',
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      startDistrictNameIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'startDistrictName',
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      startDistrictNameEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'startDistrictName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      startDistrictNameGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'startDistrictName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      startDistrictNameLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'startDistrictName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      startDistrictNameBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'startDistrictName',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      startDistrictNameStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'startDistrictName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      startDistrictNameEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'startDistrictName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      startDistrictNameContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'startDistrictName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      startDistrictNameMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'startDistrictName',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      startDistrictNameIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'startDistrictName',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      startDistrictNameIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'startDistrictName',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      targetDistrictIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'targetDistrictId',
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      targetDistrictIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'targetDistrictId',
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      targetDistrictIdEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'targetDistrictId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      targetDistrictIdGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'targetDistrictId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      targetDistrictIdLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'targetDistrictId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      targetDistrictIdBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'targetDistrictId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      targetDistrictIdStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'targetDistrictId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      targetDistrictIdEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'targetDistrictId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      targetDistrictIdContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'targetDistrictId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      targetDistrictIdMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'targetDistrictId',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      targetDistrictIdIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'targetDistrictId',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      targetDistrictIdIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'targetDistrictId',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      targetDistrictNameIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'targetDistrictName',
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      targetDistrictNameIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'targetDistrictName',
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      targetDistrictNameEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'targetDistrictName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      targetDistrictNameGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'targetDistrictName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      targetDistrictNameLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'targetDistrictName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      targetDistrictNameBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'targetDistrictName',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      targetDistrictNameStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'targetDistrictName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      targetDistrictNameEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'targetDistrictName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      targetDistrictNameContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'targetDistrictName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      targetDistrictNameMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'targetDistrictName',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      targetDistrictNameIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'targetDistrictName',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      targetDistrictNameIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'targetDistrictName',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition> timestampEqualTo(
       DateTime value) {
     return QueryBuilder.apply(this, (query) {
@@ -977,18 +1485,6 @@ extension OrderModelQuerySortBy
     });
   }
 
-  QueryBuilder<OrderModel, OrderModel, QAfterSortBy> sortByDistrictId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'districtId', Sort.asc);
-    });
-  }
-
-  QueryBuilder<OrderModel, OrderModel, QAfterSortBy> sortByDistrictIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'districtId', Sort.desc);
-    });
-  }
-
   QueryBuilder<OrderModel, OrderModel, QAfterSortBy> sortByDurationHours() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'durationHours', Sort.asc);
@@ -1049,6 +1545,59 @@ extension OrderModelQuerySortBy
     });
   }
 
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy> sortByStartDistrictId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'startDistrictId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy>
+      sortByStartDistrictIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'startDistrictId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy> sortByStartDistrictName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'startDistrictName', Sort.asc);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy>
+      sortByStartDistrictNameDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'startDistrictName', Sort.desc);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy> sortByTargetDistrictId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'targetDistrictId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy>
+      sortByTargetDistrictIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'targetDistrictId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy>
+      sortByTargetDistrictName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'targetDistrictName', Sort.asc);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy>
+      sortByTargetDistrictNameDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'targetDistrictName', Sort.desc);
+    });
+  }
+
   QueryBuilder<OrderModel, OrderModel, QAfterSortBy> sortByTimestamp() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timestamp', Sort.asc);
@@ -1085,18 +1634,6 @@ extension OrderModelQuerySortThenBy
   QueryBuilder<OrderModel, OrderModel, QAfterSortBy> thenByDistanceDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'distance', Sort.desc);
-    });
-  }
-
-  QueryBuilder<OrderModel, OrderModel, QAfterSortBy> thenByDistrictId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'districtId', Sort.asc);
-    });
-  }
-
-  QueryBuilder<OrderModel, OrderModel, QAfterSortBy> thenByDistrictIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'districtId', Sort.desc);
     });
   }
 
@@ -1172,6 +1709,59 @@ extension OrderModelQuerySortThenBy
     });
   }
 
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy> thenByStartDistrictId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'startDistrictId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy>
+      thenByStartDistrictIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'startDistrictId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy> thenByStartDistrictName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'startDistrictName', Sort.asc);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy>
+      thenByStartDistrictNameDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'startDistrictName', Sort.desc);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy> thenByTargetDistrictId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'targetDistrictId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy>
+      thenByTargetDistrictIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'targetDistrictId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy>
+      thenByTargetDistrictName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'targetDistrictName', Sort.asc);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy>
+      thenByTargetDistrictNameDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'targetDistrictName', Sort.desc);
+    });
+  }
+
   QueryBuilder<OrderModel, OrderModel, QAfterSortBy> thenByTimestamp() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timestamp', Sort.asc);
@@ -1202,13 +1792,6 @@ extension OrderModelQueryWhereDistinct
   QueryBuilder<OrderModel, OrderModel, QDistinct> distinctByDistance() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'distance');
-    });
-  }
-
-  QueryBuilder<OrderModel, OrderModel, QDistinct> distinctByDistrictId(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'districtId', caseSensitive: caseSensitive);
     });
   }
 
@@ -1243,6 +1826,38 @@ extension OrderModelQueryWhereDistinct
     });
   }
 
+  QueryBuilder<OrderModel, OrderModel, QDistinct> distinctByStartDistrictId(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'startDistrictId',
+          caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QDistinct> distinctByStartDistrictName(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'startDistrictName',
+          caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QDistinct> distinctByTargetDistrictId(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'targetDistrictId',
+          caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QDistinct> distinctByTargetDistrictName(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'targetDistrictName',
+          caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<OrderModel, OrderModel, QDistinct> distinctByTimestamp() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'timestamp');
@@ -1267,12 +1882,6 @@ extension OrderModelQueryProperty
   QueryBuilder<OrderModel, double, QQueryOperations> distanceProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'distance');
-    });
-  }
-
-  QueryBuilder<OrderModel, String?, QQueryOperations> districtIdProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'districtId');
     });
   }
 
@@ -1303,6 +1912,34 @@ extension OrderModelQueryProperty
   QueryBuilder<OrderModel, double, QQueryOperations> revenueProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'revenue');
+    });
+  }
+
+  QueryBuilder<OrderModel, String?, QQueryOperations>
+      startDistrictIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'startDistrictId');
+    });
+  }
+
+  QueryBuilder<OrderModel, String?, QQueryOperations>
+      startDistrictNameProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'startDistrictName');
+    });
+  }
+
+  QueryBuilder<OrderModel, String?, QQueryOperations>
+      targetDistrictIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'targetDistrictId');
+    });
+  }
+
+  QueryBuilder<OrderModel, String?, QQueryOperations>
+      targetDistrictNameProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'targetDistrictName');
     });
   }
 

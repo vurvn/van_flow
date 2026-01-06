@@ -57,7 +57,7 @@ class AnalyticsService {
         ..distance = distance
         ..timestamp = DateTime.now()
         ..netProfit = ProfitCalculator.calculateNetProfit(revenue, distance)
-        ..districtId = districtId
+        ..targetDistrictId = districtId
         ..wasChained = wasChained
         ..durationHours = durationHours
         ..isCompleted = true; 

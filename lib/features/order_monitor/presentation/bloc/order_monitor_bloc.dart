@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/models/order_entity.dart';
-import '../../data/utils/profit_calculator.dart';
+import '../../../../core/utils/profit_calculator.dart';
 import '../../domain/repositories/order_repository.dart';
 import 'order_monitor_event.dart';
 import 'order_monitor_state.dart';
@@ -34,7 +34,7 @@ class OrderMonitorBloc extends Bloc<OrderMonitorEvent, OrderMonitorState> {
       distance: event.distance,
       timestamp: DateTime.now(),
       netProfit: netProfit,
-      districtId: event.districtId,
+      targetDistrictId: event.districtId, // Sửa từ districtId thành targetDistrictId
     );
     await _orderRepository.saveOrder(order);
   }

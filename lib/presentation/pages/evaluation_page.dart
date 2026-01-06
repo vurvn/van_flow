@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/models/district_profile.dart';
 import '../../core/services/district_service.dart';
 import '../../core/utils/score_engine.dart';
 import '../../core/utils/profit_calculator.dart';
@@ -61,6 +62,8 @@ class _EvaluationPageState extends State<EvaluationPage> {
           profile: _targetDistrict!.profile,
           revenue: _fee,
           distance: _emptyKm + _deliveryKm,
+          startDistrictName: _startDistrict?.district.districtName,
+          targetDistrictName: _targetDistrict?.district.districtName,
         ),
       ),
     );
@@ -167,7 +170,7 @@ class _EvaluationPageState extends State<EvaluationPage> {
             style: TextStyle(
               color: profit > 0 ? Colors.white : Colors.redAccent,
               fontSize: 32,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w800,
             ),
           ),
           const SizedBox(height: 4),

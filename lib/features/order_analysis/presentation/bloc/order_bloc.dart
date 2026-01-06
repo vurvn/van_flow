@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/models/order_entity.dart';
 import '../../domain/repositories/order_repository.dart';
-import '../../data/utils/profit_calculator.dart';
+import '../../../../core/utils/profit_calculator.dart';
 import 'order_event.dart';
 import 'order_state.dart';
 
@@ -30,15 +30,13 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
   Future<void> _onOnNewOrderCaptured(
       OnNewOrderCaptured event, Emitter<OrderState> emit) async {
-
     final netProfit = ProfitCalculator.calculateNetProfit(event.price, event.distance);
 
     final order = OrderEntity(
-      // FIX: Use data from the event instead of hardcoding
       platform: event.platform ?? "Captured",
       revenue: event.price,
       distance: event.distance,
-      districtId: event.districtId, // ENSURE THIS IS IN YOUR OrderEntity
+      targetDistrictId: event.districtId, // Sửa từ districtId thành targetDistrictId
       timestamp: DateTime.now(),
       netProfit: netProfit,
     );

@@ -12,10 +12,15 @@ class OrderModel {
   late DateTime timestamp;
   late double netProfit;
   
-  // Link to district for analytics
-  String? districtId;
+  // Start District
+  String? startDistrictId;
+  String? startDistrictName;
+
+  // Target District
+  String? targetDistrictId;
+  String? targetDistrictName;
+
   bool? wasChained;
   double? durationHours;
-  
-  bool isCompleted = false; // Added flag to distinguish between active and historical orders
+  bool isCompleted = false;
 }

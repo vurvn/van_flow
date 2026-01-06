@@ -7,7 +7,10 @@ class OrderEntity extends Equatable {
   final double distance;
   final DateTime timestamp;
   final double netProfit;
-  final String? districtId;
+  final String? startDistrictId; // Added
+  final String? startDistrictName; // Added
+  final String? targetDistrictId; // Renamed from districtId
+  final String? targetDistrictName; // Added
   final bool isCompleted;
 
   const OrderEntity({
@@ -17,10 +20,25 @@ class OrderEntity extends Equatable {
     required this.distance,
     required this.timestamp,
     required this.netProfit,
-    this.districtId,
+    this.startDistrictId,
+    this.startDistrictName,
+    this.targetDistrictId,
+    this.targetDistrictName,
     this.isCompleted = false,
   });
 
   @override
-  List<Object?> get props => [id, platform, revenue, distance, timestamp, netProfit, districtId, isCompleted];
+  List<Object?> get props => [
+    id, 
+    platform, 
+    revenue, 
+    distance, 
+    timestamp, 
+    netProfit, 
+    startDistrictId, 
+    startDistrictName, 
+    targetDistrictId, 
+    targetDistrictName, 
+    isCompleted
+  ];
 }
