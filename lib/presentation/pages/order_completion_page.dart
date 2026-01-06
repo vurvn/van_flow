@@ -38,7 +38,7 @@ class _OrderCompletionPageState extends State<OrderCompletionPage> {
     if (mounted) {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Learning engine updated!'), backgroundColor: Colors.green),
+        const SnackBar(content: Text('Đã cập nhật dữ liệu học máy!'), backgroundColor: Colors.green),
       );
     }
   }
@@ -47,29 +47,29 @@ class _OrderCompletionPageState extends State<OrderCompletionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(title: Text('COMPLETE: ${widget.districtName}'), backgroundColor: Colors.grey[900]),
+      appBar: AppBar(title: Text('HOÀN THÀNH: ${widget.districtName}'), backgroundColor: Colors.grey[900]),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text('HOW LONG DID IT TAKE?', style: TextStyle(color: Colors.white70)),
+            const Text('THỜI GIAN THỰC HIỆN?', style: TextStyle(color: Colors.white70)),
             Slider(
               value: _durationHours,
               min: 0.5,
               max: 5.0,
               divisions: 9,
-              label: '${_durationHours}h',
+              label: '${_durationHours} giờ',
               onChanged: (v) => setState(() => _durationHours = v),
             ),
             const SizedBox(height: 30),
-            const Text('DID YOU GET A NEW ORDER IMMEDIATELY?', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+            const Text('BẠN CÓ ĐƠN MỚI NGAY LẬP TỨC KHÔNG?', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 20),
             Row(
               children: [
-                _buildChoiceButton('YES (CHAINED)', true, Colors.greenAccent),
+                _buildChoiceButton('CÓ (NỐI ĐƠN)', true, Colors.greenAccent),
                 const SizedBox(width: 16),
-                _buildChoiceButton('NO (EMPTY)', false, Colors.redAccent),
+                _buildChoiceButton('KHÔNG (TRỐNG)', false, Colors.redAccent),
               ],
             ),
             const Spacer(),
@@ -80,7 +80,7 @@ class _OrderCompletionPageState extends State<OrderCompletionPage> {
                 foregroundColor: Colors.black,
                 minimumSize: const Size(double.infinity, 60),
               ),
-              child: const Text('UPDATE ANALYTICS', style: TextStyle(fontWeight: FontWeight.w800)),
+              child: const Text('CẬP NHẬT PHÂN TÍCH', style: TextStyle(fontWeight: FontWeight.w800)),
             ),
           ],
         ),

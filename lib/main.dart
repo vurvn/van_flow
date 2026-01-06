@@ -8,7 +8,7 @@ import 'presentation/screens/main_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  // Initialize Dependency Injection (Isar, Repositories, Blocs)
+  // Khởi tạo Dependency Injection (Isar, Repositories, Blocs)
   await di.init();
   
   runApp(const VanFlowApp());
@@ -25,7 +25,7 @@ class VanFlowApp extends StatelessWidget {
         BlocProvider(create: (_) => di.sl<AnalyticsBloc>()),
       ],
       child: MaterialApp(
-        title: 'Van Flow MVP',
+        title: 'Van Flow - Hỗ trợ tài xế',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           brightness: Brightness.dark,
@@ -33,7 +33,6 @@ class VanFlowApp extends StatelessWidget {
           useMaterial3: true,
           scaffoldBackgroundColor: Colors.black,
         ),
-
         home: const MainScreen(),
       ),
     );

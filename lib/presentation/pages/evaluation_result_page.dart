@@ -28,17 +28,17 @@ class EvaluationResultPage extends StatelessWidget {
     switch (decision) {
       case Decision.accept:
         statusColor = Colors.greenAccent;
-        statusText = 'ACCEPT';
+        statusText = 'CHẤP NHẬN';
         statusIcon = Icons.check_circle_outline;
         break;
       case Decision.consider:
         statusColor = Colors.orangeAccent;
-        statusText = 'CONSIDER';
+        statusText = 'CÂN NHẮC';
         statusIcon = Icons.help_outline;
         break;
       case Decision.reject:
         statusColor = Colors.redAccent;
-        statusText = 'REJECT';
+        statusText = 'TỪ CHỐI';
         statusIcon = Icons.cancel_outlined;
         break;
     }
@@ -63,7 +63,7 @@ class EvaluationResultPage extends StatelessWidget {
               ),
             ),
             Text(
-              'SCORE: ${score.toStringAsFixed(0)}',
+              'ĐIỂM SỐ: ${score.toStringAsFixed(0)}',
               textAlign: TextAlign.center,
               style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
             ),
@@ -78,7 +78,7 @@ class EvaluationResultPage extends StatelessWidget {
                 minimumSize: const Size(double.infinity, 80),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
               ),
-              child: const Text('READY FOR NEXT', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
+              child: const Text('TIẾP THEO', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
             ),
           ],
         ),
@@ -131,20 +131,20 @@ class EvaluationResultPage extends StatelessWidget {
     final List<Widget> warnings = [];
 
     if (!profile.isVanFriendly) {
-      warnings.add(_WarningTag(label: 'VAN UNFRIENDLY', icon: Icons.local_shipping, color: Colors.redAccent));
+      warnings.add(_WarningTag(label: 'XE TẢI KHÓ ĐI', icon: Icons.local_shipping, color: Colors.redAccent));
     }
     if (profile.hasTimeRestriction) {
-      warnings.add(_WarningTag(label: 'RESTRICTED HOURS', icon: Icons.access_time_filled, color: Colors.orangeAccent));
+      warnings.add(_WarningTag(label: 'CẤM GIỜ', icon: Icons.access_time_filled, color: Colors.orangeAccent));
     }
     if (profile.avgWaitingMinutes > 8) {
-      warnings.add(_WarningTag(label: 'TRAFFIC HEAVY', icon: Icons.traffic, color: Colors.amberAccent));
+      warnings.add(_WarningTag(label: 'KẸT XE', icon: Icons.traffic, color: Colors.amberAccent));
     }
 
     if (warnings.isEmpty) return const SizedBox.shrink();
 
     return Column(
       children: [
-        const Text('DISTRICT WARNINGS', style: TextStyle(color: Colors.white54, fontSize: 12, letterSpacing: 2, fontWeight: FontWeight.bold)),
+        const Text('CẢNH BÁO KHU VỰC', style: TextStyle(color: Colors.white54, fontSize: 12, letterSpacing: 2, fontWeight: FontWeight.bold)),
         const SizedBox(height: 12),
         Wrap(
           spacing: 10,
