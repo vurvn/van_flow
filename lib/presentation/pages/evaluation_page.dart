@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../core/models/district_profile.dart';
 import '../../core/services/district_service.dart';
 import '../../core/utils/score_engine.dart';
-import '../../features/order_analysis/data/utils/profit_calculator.dart';
 import 'evaluation_result_page.dart';
 
 class EvaluationPage extends StatefulWidget {
