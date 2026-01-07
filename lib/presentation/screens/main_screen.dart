@@ -19,7 +19,7 @@ class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = const [
-    EvaluationPage(), // Quick Eval as the primary tab
+    EvaluationPage(),
     OrderMonitorPage(),
     AnalyticsPage(),
   ];
@@ -29,6 +29,16 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     context.read<OrderMonitorBloc>().add(WatchOrdersStarted());
     context.read<AnalyticsBloc>().add(LoadAnalyticsStarted());
+  }
+
+  void _onTabTapped(int index) {
+    if (index == 2) {
+      // Khi nhấn vào tab PHÂN TÍCH (index 2), yêu cầu load lại dữ liệu
+      context.read<AnalyticsBloc>().add(LoadAnalyticsStarted());
+    }
+    setState(() {
+      _currentIndex = index;
+    });
   }
 
   @override
@@ -46,7 +56,7 @@ class _MainScreenState extends State<MainScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        onTap: (index) => setState(() => _currentIndex = index),
+        onTap: _onTabTapped, // Sử dụng hàm xử lý mới
         backgroundColor: Colors.grey[900],
         selectedItemColor: Colors.amberAccent,
         unselectedItemColor: Colors.white24,

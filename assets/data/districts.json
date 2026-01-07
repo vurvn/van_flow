@@ -12,6 +12,18 @@
     }
   },
   {
+    "districtId": "hcm_q2",
+    "districtName": "Quận 2",
+    "city": "Hồ Chí Minh",
+    "profile": {
+      "chainProbability": 0.65,
+      "avgIncomePerKm": 13000,
+      "avgWaitingMinutes": 8,
+      "isVanFriendly": true,
+      "hasTimeRestriction": false
+    }
+  },
+  {
     "districtId": "hcm_q3",
     "districtName": "Quận 3",
     "city": "Hồ Chí Minh",
@@ -79,6 +91,18 @@
       "chainProbability": 0.55,
       "avgIncomePerKm": 10000,
       "avgWaitingMinutes": 10,
+      "isVanFriendly": true,
+      "hasTimeRestriction": false
+    }
+  },
+  {
+    "districtId": "hcm_q9",
+    "districtName": "Quận 9",
+    "city": "Hồ Chí Minh",
+    "profile": {
+      "chainProbability": 0.5,
+      "avgIncomePerKm": 10000,
+      "avgWaitingMinutes": 7,
       "isVanFriendly": true,
       "hasTimeRestriction": false
     }

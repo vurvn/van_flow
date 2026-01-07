@@ -1,0 +1,115 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "districtId": "hcm_q1", "name": "Quận 1" },
+      "geometry": { "type": "Polygon", "coordinates": [[[106.689, 10.782], [106.702, 10.785], [106.711, 10.776], [106.705, 10.768], [106.692, 10.766], [106.689, 10.782]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "districtId": "hcm_q3", "name": "Quận 3" },
+      "geometry": { "type": "Polygon", "coordinates": [[[106.675, 10.785], [106.689, 10.782], [106.692, 10.766], [106.678, 10.768], [106.675, 10.785]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "districtId": "hcm_q4", "name": "Quận 4" },
+      "geometry": { "type": "Polygon", "coordinates": [[[106.702, 10.765], [106.715, 10.765], [106.715, 10.750], [106.695, 10.750], [106.702, 10.765]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "districtId": "hcm_q5", "name": "Quận 5" },
+      "geometry": { "type": "Polygon", "coordinates": [[[106.655, 10.765], [106.675, 10.765], [106.675, 10.745], [106.655, 10.745], [106.655, 10.765]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "districtId": "hcm_q6", "name": "Quận 6" },
+      "geometry": { "type": "Polygon", "coordinates": [[[106.630, 10.755], [106.650, 10.755], [106.650, 10.735], [106.630, 10.735], [106.630, 10.755]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "districtId": "hcm_q7", "name": "Quận 7" },
+      "geometry": { "type": "Polygon", "coordinates": [[[106.695, 10.735], [106.725, 10.745], [106.755, 10.725], [106.745, 10.695], [106.705, 10.705], [106.695, 10.735]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "districtId": "hcm_q8", "name": "Quận 8" },
+      "geometry": { "type": "Polygon", "coordinates": [[[106.620, 10.730], [106.700, 10.730], [106.700, 10.710], [106.620, 10.710], [106.620, 10.730]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "districtId": "hcm_q10", "name": "Quận 10" },
+      "geometry": { "type": "Polygon", "coordinates": [[[106.660, 10.780], [106.675, 10.780], [106.675, 10.765], [106.660, 10.765], [106.660, 10.780]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "districtId": "hcm_q11", "name": "Quận 11" },
+      "geometry": { "type": "Polygon", "coordinates": [[[106.645, 10.775], [106.660, 10.775], [106.660, 10.760], [106.645, 10.760], [106.645, 10.775]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "districtId": "hcm_q12", "name": "Quận 12" },
+      "geometry": { "type": "Polygon", "coordinates": [[[106.640, 10.880], [106.700, 10.880], [106.700, 10.810], [106.640, 10.810], [106.640, 10.880]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "districtId": "hcm_tp_thu_duc", "name": "TP. Thủ Đức" },
+      "geometry": { "type": "Polygon", "coordinates": [[[106.720, 10.850], [106.850, 10.850], [106.850, 10.750], [106.720, 10.750], [106.720, 10.850]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "districtId": "hcm_bin_tan", "name": "Bình Tân" },
+      "geometry": { "type": "Polygon", "coordinates": [[[106.580, 10.790], [106.620, 10.790], [106.620, 10.730], [106.580, 10.730], [106.580, 10.790]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "districtId": "hcm_bin_thanh", "name": "Bình Thạnh" },
+      "geometry": { "type": "Polygon", "coordinates": [[[106.680, 10.820], [106.720, 10.820], [106.720, 10.780], [106.680, 10.780], [106.680, 10.820]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "districtId": "hcm_go_vap", "name": "Gò Vấp" },
+      "geometry": { "type": "Polygon", "coordinates": [[[106.650, 10.850], [106.700, 10.850], [106.700, 10.820], [106.650, 10.820], [106.650, 10.850]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "districtId": "hcm_phu_nhuan", "name": "Phú Nhuận" },
+      "geometry": { "type": "Polygon", "coordinates": [[[106.670, 10.810], [106.690, 10.810], [106.690, 10.790], [106.670, 10.790], [106.670, 10.810]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "districtId": "hcm_tan_binh", "name": "Tân Bình" },
+      "geometry": { "type": "Polygon", "coordinates": [[[106.640, 10.810], [106.670, 10.810], [106.670, 10.780], [106.640, 10.780], [106.640, 10.810]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "districtId": "hcm_tan_phu", "name": "Tân Phú" },
+      "geometry": { "type": "Polygon", "coordinates": [[[106.610, 10.800], [106.640, 10.800], [106.640, 10.770], [106.610, 10.770], [106.610, 10.800]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "districtId": "hcm_binh_chanh", "name": "Bình Chánh" },
+      "geometry": { "type": "Polygon", "coordinates": [[[106.500, 10.750], [106.650, 10.750], [106.650, 10.650], [106.500, 10.650], [106.500, 10.750]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "districtId": "hcm_can_gio", "name": "Cần Giờ" },
+      "geometry": { "type": "Polygon", "coordinates": [[[106.750, 10.650], [107.000, 10.650], [107.000, 10.350], [106.750, 10.350], [106.750, 10.650]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "districtId": "hcm_cu_chi", "name": "Củ Chi" },
+      "geometry": { "type": "Polygon", "coordinates": [[[106.350, 11.150], [106.600, 11.150], [106.600, 10.850], [106.350, 10.850], [106.350, 11.150]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "districtId": "hcm_hoc_mon", "name": "Hóc Môn" },
+      "geometry": { "type": "Polygon", "coordinates": [[[106.550, 10.950], [106.680, 10.950], [106.680, 10.850], [106.550, 10.850], [106.550, 10.950]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "districtId": "hcm_nha_be", "name": "Nhà Bè" },
+      "geometry": { "type": "Polygon", "coordinates": [[[106.650, 10.700], [106.750, 10.700], [106.750, 10.600], [106.650, 10.600], [106.650, 10.700]]] }
+    }
+  ]
+}

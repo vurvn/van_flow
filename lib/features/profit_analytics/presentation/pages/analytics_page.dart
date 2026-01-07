@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../district_map/presentation/pages/district_map_page.dart';
 import '../bloc/analytics_bloc.dart';
 import '../bloc/analytics_state.dart';
 
@@ -22,23 +23,48 @@ class AnalyticsPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  _buildSummaryCard('TOTAL REVENUE', summary.totalRevenue, Colors.blueGrey),
+                  _buildSummaryCard('TỔNG DOANH THU', summary.totalRevenue, Colors.blueGrey),
                   const SizedBox(height: 16),
-                  _buildSummaryCard('TAKE-HOME PAY', summary.totalNetProfit, Colors.greenAccent),
+                  _buildSummaryCard('THU NHẬP THỰC NHẬN', summary.totalNetProfit, Colors.greenAccent),
                   const SizedBox(height: 32),
                   const Text(
-                    'LAST 7 DAYS PROFIT',
+                    'LỢI NHUẬN 7 NGÀY QUA',
                     style: TextStyle(color: Colors.white70, fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
                   _buildSimpleBarChart(summary.dailyProfits),
+                  const SizedBox(height: 32),
+                  const Text(
+                    'BẢN ĐỒ NHIỆT KHU VỰC',
+                    style: TextStyle(color: Colors.white70, fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Dựa trên mật độ đơn hàng thực tế của bạn',
+                    style: TextStyle(color: Colors.white24, fontSize: 12),
+                  ),
+                  const SizedBox(height: 16),
+                  _buildHeatMapSection(),
+                  const SizedBox(height: 24),
                 ],
               ),
             );
           }
-          return const Center(child: Text('No data available', style: TextStyle(color: Colors.white70)));
+          return const Center(child: Text('Không có dữ liệu', style: TextStyle(color: Colors.white70)));
         },
       ),
+    );
+  }
+
+  Widget _buildHeatMapSection() {
+    return Container(
+      height: 300,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white10),
+        // clipBehavior: Clip.antiAlias,
+      ),
+      child: const DistrictMapPage(showAppBar: false),
     );
   }
 
@@ -64,7 +90,6 @@ class AnalyticsPage extends StatelessWidget {
   }
 
   Widget _buildSimpleBarChart(Map<DateTime, double> dailyProfits) {
-    // Basic implementation of a bar chart using a Row of Containers
     final sortedDates = dailyProfits.keys.toList()..sort();
     final last7Days = sortedDates.length > 7 ? sortedDates.sublist(sortedDates.length - 7) : sortedDates;
     

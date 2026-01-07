@@ -18,6 +18,8 @@ dependencies:
   get_it: ^8.0.3
   flutter_background_service: ^5.0.10
   path_provider: ^2.1.5
+  flutter_map: ^7.0.2
+  latlong2: ^0.9.1
 
 dev_dependencies:
   flutter_test:
@@ -30,3 +32,5 @@ flutter:
   uses-material-design: true
   assets:
     - assets/data/districts.json
+    - assets/data/hcmc_districts.geojson
+    - assets/data/diaphanhuyen.geojson
