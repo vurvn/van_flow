@@ -9,6 +9,8 @@ class OrderModel {
   late String platform;
   late double revenue;
   late double distance;
+  late double pickupKm; // Added
+  late double deliveryKm; // Added
   late DateTime timestamp;
   late double netProfit;
   

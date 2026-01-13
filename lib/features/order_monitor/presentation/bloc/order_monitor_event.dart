@@ -13,17 +13,21 @@ class OrderAdded extends OrderMonitorEvent {
   final String platform;
   final double revenue;
   final double distance;
+  final double pickupKm;
+  final double deliveryKm;
   final String? districtId;
 
   const OrderAdded({
     required this.platform,
     required this.revenue,
     required this.distance,
+    required this.pickupKm,
+    required this.deliveryKm,
     required this.districtId,
   });
 
   @override
-  List<Object?> get props => [platform, revenue, distance, districtId];
+  List<Object?> get props => [platform, revenue, distance, pickupKm, deliveryKm, districtId];
 }
 
 class OrdersUpdated extends OrderMonitorEvent {

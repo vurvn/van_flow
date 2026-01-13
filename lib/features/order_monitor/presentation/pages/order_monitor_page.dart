@@ -29,7 +29,7 @@ class OrderMonitorPage extends StatelessWidget {
                     },
                   ),
                 ),
-                // _buildActionButtons(context),
+                _buildActionButtons(context),
               ],
             );
           }
@@ -44,7 +44,14 @@ class OrderMonitorPage extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: ElevatedButton(
         onPressed: () => context.read<OrderMonitorBloc>().add(
-          const OrderAdded(platform: 'Grab', revenue: 75000, distance: 4.5, districtId: 'hcm_q7'),
+          const OrderAdded(
+            platform: 'Grab', 
+            revenue: 75000, 
+            distance: 4.5, 
+            pickupKm: 1.5, 
+            deliveryKm: 3.0, 
+            districtId: 'hcm_q7'
+          ),
         ),
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.amber,
@@ -124,7 +131,7 @@ class _OrderCard extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  '${order.distance.toStringAsFixed(1)} km',
+                  '${order.distance} km',
                   style: const TextStyle(color: Colors.white70, fontSize: 14),
                 ),
               ],

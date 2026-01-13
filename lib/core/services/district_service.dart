@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:isar/isar.dart';
 import '../models/district.dart';
 import '../models/district_profile.dart';
 
@@ -17,8 +18,6 @@ class DistrictService {
     
     return data.map((item) {
       final district = District.fromJson(item);
-      
-      // Inject districtId into the profile map before parsing
       final profileMap = Map<String, dynamic>.from(item['profile']);
       profileMap['districtId'] = district.districtId;
       
@@ -27,5 +26,17 @@ class DistrictService {
         profile: DistrictProfile.fromJson(profileMap),
       );
     }).toList();
+  }
+
+  /// Lưu dữ liệu từ JSON vào Isar nếu DB trống
+  static Future<void> seedDistricts(Isar isar) async {
+    final count = await isar.districtProfiles.count();
+    if (count == 0) {
+      final districtsData = await loadDistricts();
+      final profiles = districtsData.map((d) => d.profile).toList();
+      await isar.writeTxn(() async {
+        await isar.districtProfiles.putAll(profiles);
+      });
+    }
   }
 }

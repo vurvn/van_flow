@@ -36,7 +36,9 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       platform: event.platform ?? "Captured",
       revenue: event.price,
       distance: event.distance,
-      targetDistrictId: event.districtId, // Sửa từ districtId thành targetDistrictId
+      pickupKm: 0.0, // Default value for captured orders if not provided
+      deliveryKm: event.distance, // Assuming captured distance is delivery distance
+      targetDistrictId: event.districtId,
       timestamp: DateTime.now(),
       netProfit: netProfit,
     );

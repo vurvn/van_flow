@@ -7,6 +7,7 @@ import 'package:latlong2/latlong.dart';
 import '../../../../core/models/order_entity.dart';
 import '../../../../features/order_monitor/domain/repositories/order_repository.dart';
 import '../../../../core/injection/injection.dart';
+import '../../../../core/utils/district_utils.dart'; // Import utility chung
 
 class DistrictMapPage extends StatefulWidget {
   final bool showAppBar;
@@ -69,8 +70,8 @@ class _DistrictMapPageState extends State<DistrictMapPage> {
       final rawName = props['Ten_Huyen'] ?? props['NAME_2'] ?? 'Unknown';
       final name = rawName.toString();
       
-      // Normalize ID to match hcm_q1, hcm_q7, etc.
-      final id = _normalizeId(name);
+      // Sử dụng DistrictUtils tập trung
+      final id = DistrictUtils.normalizeId(name);
 
       if (geometry['type'] == 'Polygon') {
         final coords = _parseRing(geometry['coordinates'][0]);
@@ -92,7 +93,6 @@ class _DistrictMapPageState extends State<DistrictMapPage> {
   static List<LatLng> _parseRing(List ring) {
     try {
       return ring.map<LatLng>((c) {
-        // Essential: use (c[1] as num).toDouble() to handle mixed types
         return LatLng(
           (c[1] as num).toDouble(), 
           (c[0] as num).toDouble()
@@ -101,35 +101,6 @@ class _DistrictMapPageState extends State<DistrictMapPage> {
     } catch (e) {
       return [];
     }
-  }
-
-  static String _normalizeId(String name) {
-    final n = name.toLowerCase();
-    if (n.contains('quận 1')) return 'hcm_q1';
-    if (n.contains('quận 2')) return 'hcm_q2';
-    if (n.contains('quận 3')) return 'hcm_q3';
-    if (n.contains('quận 4')) return 'hcm_q4';
-    if (n.contains('quận 5')) return 'hcm_q5';
-    if (n.contains('quận 6')) return 'hcm_q6';
-    if (n.contains('quận 7')) return 'hcm_q7';
-    if (n.contains('quận 8')) return 'hcm_q8';
-    if (n.contains('quận 9')) return 'hcm_q9';
-    if (n.contains('quận 10')) return 'hcm_q10';
-    if (n.contains('quận 11')) return 'hcm_q11';
-    if (n.contains('quận 12')) return 'hcm_q12';
-    if (n.contains('thủ đức')) return 'hcm_tp_thu_duc';
-    if (n.contains('bình tân')) return 'hcm_binh_tan';
-    if (n.contains('bình thạnh')) return 'hcm_binh_thanh';
-    if (n.contains('gò vấp')) return 'hcm_go_vap';
-    if (n.contains('phú nhuận')) return 'hcm_phu_nhuan';
-    if (n.contains('tân bình')) return 'hcm_tan_binh';
-    if (n.contains('tân phú')) return 'hcm_tan_phu';
-    if (n.contains('bình chánh')) return 'hcm_binh_chanh';
-    if (n.contains('cần giờ')) return 'hcm_can_gio';
-    if (n.contains('củ chi')) return 'hcm_cu_chi';
-    if (n.contains('hóc môn')) return 'hcm_hoc_mon';
-    if (n.contains('nhà bè')) return 'hcm_nha_be';
-    return name;
   }
 
   Color _getDistrictColor(String districtId) {

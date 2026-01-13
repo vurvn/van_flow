@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_overlay_window/flutter_overlay_window.dart';
 import '../../core/models/district_profile.dart';
 import '../../core/services/district_service.dart';
+import '../../core/services/background_service.dart'; // Import NotificationHandler
 import '../../core/utils/score_engine.dart';
 import '../../core/utils/profit_calculator.dart';
 import '../../core/utils/app_constants.dart';
@@ -41,6 +43,32 @@ class _EvaluationPageState extends State<EvaluationPage> {
     });
   }
 
+  void _simulateNotification() async {
+    // 1. Kiểm tra quyền Overlay trước khi giả lập
+    bool hasOverlayPermission = await FlutterOverlayWindow.isPermissionGranted();
+    if (!hasOverlayPermission) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Vui lòng cấp quyền "Hiển thị trên ứng dụng khác" trước!'),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+      await FlutterOverlayWindow.requestPermission();
+      return;
+    }
+
+    // 2. Gọi trực tiếp Handler thay vì qua BackgroundService cũ
+    NotificationHandler.simulate("Đơn mới: 520.000đ - Q12 -> Bình Tân - 18km");
+    
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('🚀 Đang giả lập thông báo đơn hàng...'),
+        backgroundColor: Colors.green,
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
   void _evaluate() {
     if (_targetDistrict == null) return;
 
@@ -62,6 +90,8 @@ class _EvaluationPageState extends State<EvaluationPage> {
           profile: _targetDistrict!.profile,
           revenue: _fee,
           distance: _emptyKm + _deliveryKm,
+          pickupKm: _emptyKm,
+          deliveryKm: _deliveryKm,
           startDistrictName: _startDistrict?.district.districtName,
           targetDistrictName: _targetDistrict?.district.districtName,
         ),
@@ -132,6 +162,19 @@ class _EvaluationPageState extends State<EvaluationPage> {
                     _buildSectionTitle('QUẬN ĐẾN (KẾT THÚC)'),
                     _buildDistrictScroll(false),
                     
+                    const SizedBox(height: 20),
+                    
+                    OutlinedButton.icon(
+                      onPressed: _simulateNotification,
+                      icon: const Icon(Icons.bug_report, size: 18),
+                      label: const Text('TEST GIẢ LẬP THÔNG BÁO'),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.amberAccent.withOpacity(0.6),
+                        side: BorderSide(color: Colors.amberAccent.withOpacity(0.2)),
+                        minimumSize: const Size(double.infinity, 50),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                    ),
                     const SizedBox(height: 20),
                   ],
                 ),

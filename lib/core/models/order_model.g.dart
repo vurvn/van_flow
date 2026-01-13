@@ -17,63 +17,73 @@ const OrderModelSchema = CollectionSchema(
   name: r'OrderModel',
   id: 3315151259962091397,
   properties: {
-    r'distance': PropertySchema(
+    r'deliveryKm': PropertySchema(
       id: 0,
+      name: r'deliveryKm',
+      type: IsarType.double,
+    ),
+    r'distance': PropertySchema(
+      id: 1,
       name: r'distance',
       type: IsarType.double,
     ),
     r'durationHours': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'durationHours',
       type: IsarType.double,
     ),
     r'isCompleted': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'isCompleted',
       type: IsarType.bool,
     ),
     r'netProfit': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'netProfit',
       type: IsarType.double,
     ),
+    r'pickupKm': PropertySchema(
+      id: 5,
+      name: r'pickupKm',
+      type: IsarType.double,
+    ),
     r'platform': PropertySchema(
-      id: 4,
+      id: 6,
       name: r'platform',
       type: IsarType.string,
     ),
     r'revenue': PropertySchema(
-      id: 5,
+      id: 7,
       name: r'revenue',
       type: IsarType.double,
     ),
     r'startDistrictId': PropertySchema(
-      id: 6,
+      id: 8,
       name: r'startDistrictId',
       type: IsarType.string,
     ),
     r'startDistrictName': PropertySchema(
-      id: 7,
+      id: 9,
       name: r'startDistrictName',
       type: IsarType.string,
     ),
     r'targetDistrictId': PropertySchema(
-      id: 8,
+      id: 10,
       name: r'targetDistrictId',
       type: IsarType.string,
     ),
     r'targetDistrictName': PropertySchema(
-      id: 9,
+      id: 11,
       name: r'targetDistrictName',
       type: IsarType.string,
     ),
     r'timestamp': PropertySchema(
-      id: 10,
+      id: 12,
       name: r'timestamp',
       type: IsarType.dateTime,
     ),
     r'wasChained': PropertySchema(
-      id: 11,
+      id: 13,
       name: r'wasChained',
       type: IsarType.bool,
     )
@@ -132,18 +142,20 @@ void _orderModelSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDouble(offsets[0], object.distance);
-  writer.writeDouble(offsets[1], object.durationHours);
-  writer.writeBool(offsets[2], object.isCompleted);
-  writer.writeDouble(offsets[3], object.netProfit);
-  writer.writeString(offsets[4], object.platform);
-  writer.writeDouble(offsets[5], object.revenue);
-  writer.writeString(offsets[6], object.startDistrictId);
-  writer.writeString(offsets[7], object.startDistrictName);
-  writer.writeString(offsets[8], object.targetDistrictId);
-  writer.writeString(offsets[9], object.targetDistrictName);
-  writer.writeDateTime(offsets[10], object.timestamp);
-  writer.writeBool(offsets[11], object.wasChained);
+  writer.writeDouble(offsets[0], object.deliveryKm);
+  writer.writeDouble(offsets[1], object.distance);
+  writer.writeDouble(offsets[2], object.durationHours);
+  writer.writeBool(offsets[3], object.isCompleted);
+  writer.writeDouble(offsets[4], object.netProfit);
+  writer.writeDouble(offsets[5], object.pickupKm);
+  writer.writeString(offsets[6], object.platform);
+  writer.writeDouble(offsets[7], object.revenue);
+  writer.writeString(offsets[8], object.startDistrictId);
+  writer.writeString(offsets[9], object.startDistrictName);
+  writer.writeString(offsets[10], object.targetDistrictId);
+  writer.writeString(offsets[11], object.targetDistrictName);
+  writer.writeDateTime(offsets[12], object.timestamp);
+  writer.writeBool(offsets[13], object.wasChained);
 }
 
 OrderModel _orderModelDeserialize(
@@ -153,19 +165,21 @@ OrderModel _orderModelDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = OrderModel();
-  object.distance = reader.readDouble(offsets[0]);
-  object.durationHours = reader.readDoubleOrNull(offsets[1]);
+  object.deliveryKm = reader.readDouble(offsets[0]);
+  object.distance = reader.readDouble(offsets[1]);
+  object.durationHours = reader.readDoubleOrNull(offsets[2]);
   object.id = id;
-  object.isCompleted = reader.readBool(offsets[2]);
-  object.netProfit = reader.readDouble(offsets[3]);
-  object.platform = reader.readString(offsets[4]);
-  object.revenue = reader.readDouble(offsets[5]);
-  object.startDistrictId = reader.readStringOrNull(offsets[6]);
-  object.startDistrictName = reader.readStringOrNull(offsets[7]);
-  object.targetDistrictId = reader.readStringOrNull(offsets[8]);
-  object.targetDistrictName = reader.readStringOrNull(offsets[9]);
-  object.timestamp = reader.readDateTime(offsets[10]);
-  object.wasChained = reader.readBoolOrNull(offsets[11]);
+  object.isCompleted = reader.readBool(offsets[3]);
+  object.netProfit = reader.readDouble(offsets[4]);
+  object.pickupKm = reader.readDouble(offsets[5]);
+  object.platform = reader.readString(offsets[6]);
+  object.revenue = reader.readDouble(offsets[7]);
+  object.startDistrictId = reader.readStringOrNull(offsets[8]);
+  object.startDistrictName = reader.readStringOrNull(offsets[9]);
+  object.targetDistrictId = reader.readStringOrNull(offsets[10]);
+  object.targetDistrictName = reader.readStringOrNull(offsets[11]);
+  object.timestamp = reader.readDateTime(offsets[12]);
+  object.wasChained = reader.readBoolOrNull(offsets[13]);
   return object;
 }
 
@@ -179,26 +193,30 @@ P _orderModelDeserializeProp<P>(
     case 0:
       return (reader.readDouble(offset)) as P;
     case 1:
-      return (reader.readDoubleOrNull(offset)) as P;
-    case 2:
-      return (reader.readBool(offset)) as P;
-    case 3:
       return (reader.readDouble(offset)) as P;
+    case 2:
+      return (reader.readDoubleOrNull(offset)) as P;
+    case 3:
+      return (reader.readBool(offset)) as P;
     case 4:
-      return (reader.readString(offset)) as P;
+      return (reader.readDouble(offset)) as P;
     case 5:
       return (reader.readDouble(offset)) as P;
     case 6:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 7:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readDouble(offset)) as P;
     case 8:
       return (reader.readStringOrNull(offset)) as P;
     case 9:
       return (reader.readStringOrNull(offset)) as P;
     case 10:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 11:
+      return (reader.readStringOrNull(offset)) as P;
+    case 12:
+      return (reader.readDateTime(offset)) as P;
+    case 13:
       return (reader.readBoolOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -296,6 +314,70 @@ extension OrderModelQueryWhere
 
 extension OrderModelQueryFilter
     on QueryBuilder<OrderModel, OrderModel, QFilterCondition> {
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition> deliveryKmEqualTo(
+    double value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'deliveryKm',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      deliveryKmGreaterThan(
+    double value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'deliveryKm',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      deliveryKmLessThan(
+    double value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'deliveryKm',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition> deliveryKmBetween(
+    double lower,
+    double upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'deliveryKm',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
   QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition> distanceEqualTo(
     double value, {
     double epsilon = Query.epsilon,
@@ -560,6 +642,69 @@ extension OrderModelQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'netProfit',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition> pickupKmEqualTo(
+    double value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'pickupKm',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition>
+      pickupKmGreaterThan(
+    double value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'pickupKm',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition> pickupKmLessThan(
+    double value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'pickupKm',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterFilterCondition> pickupKmBetween(
+    double lower,
+    double upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'pickupKm',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -1473,6 +1618,18 @@ extension OrderModelQueryLinks
 
 extension OrderModelQuerySortBy
     on QueryBuilder<OrderModel, OrderModel, QSortBy> {
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy> sortByDeliveryKm() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'deliveryKm', Sort.asc);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy> sortByDeliveryKmDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'deliveryKm', Sort.desc);
+    });
+  }
+
   QueryBuilder<OrderModel, OrderModel, QAfterSortBy> sortByDistance() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'distance', Sort.asc);
@@ -1518,6 +1675,18 @@ extension OrderModelQuerySortBy
   QueryBuilder<OrderModel, OrderModel, QAfterSortBy> sortByNetProfitDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'netProfit', Sort.desc);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy> sortByPickupKm() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pickupKm', Sort.asc);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy> sortByPickupKmDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pickupKm', Sort.desc);
     });
   }
 
@@ -1625,6 +1794,18 @@ extension OrderModelQuerySortBy
 
 extension OrderModelQuerySortThenBy
     on QueryBuilder<OrderModel, OrderModel, QSortThenBy> {
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy> thenByDeliveryKm() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'deliveryKm', Sort.asc);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy> thenByDeliveryKmDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'deliveryKm', Sort.desc);
+    });
+  }
+
   QueryBuilder<OrderModel, OrderModel, QAfterSortBy> thenByDistance() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'distance', Sort.asc);
@@ -1682,6 +1863,18 @@ extension OrderModelQuerySortThenBy
   QueryBuilder<OrderModel, OrderModel, QAfterSortBy> thenByNetProfitDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'netProfit', Sort.desc);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy> thenByPickupKm() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pickupKm', Sort.asc);
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QAfterSortBy> thenByPickupKmDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pickupKm', Sort.desc);
     });
   }
 
@@ -1789,6 +1982,12 @@ extension OrderModelQuerySortThenBy
 
 extension OrderModelQueryWhereDistinct
     on QueryBuilder<OrderModel, OrderModel, QDistinct> {
+  QueryBuilder<OrderModel, OrderModel, QDistinct> distinctByDeliveryKm() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'deliveryKm');
+    });
+  }
+
   QueryBuilder<OrderModel, OrderModel, QDistinct> distinctByDistance() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'distance');
@@ -1810,6 +2009,12 @@ extension OrderModelQueryWhereDistinct
   QueryBuilder<OrderModel, OrderModel, QDistinct> distinctByNetProfit() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'netProfit');
+    });
+  }
+
+  QueryBuilder<OrderModel, OrderModel, QDistinct> distinctByPickupKm() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'pickupKm');
     });
   }
 
@@ -1879,6 +2084,12 @@ extension OrderModelQueryProperty
     });
   }
 
+  QueryBuilder<OrderModel, double, QQueryOperations> deliveryKmProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'deliveryKm');
+    });
+  }
+
   QueryBuilder<OrderModel, double, QQueryOperations> distanceProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'distance');
@@ -1900,6 +2111,12 @@ extension OrderModelQueryProperty
   QueryBuilder<OrderModel, double, QQueryOperations> netProfitProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'netProfit');
+    });
+  }
+
+  QueryBuilder<OrderModel, double, QQueryOperations> pickupKmProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'pickupKm');
     });
   }
 

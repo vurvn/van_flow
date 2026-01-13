@@ -9,6 +9,8 @@ extension OrderEntityMapper on OrderEntity {
       ..platform = platform
       ..revenue = revenue
       ..distance = distance
+      ..pickupKm = pickupKm
+      ..deliveryKm = deliveryKm
       ..timestamp = timestamp
       ..netProfit = netProfit
       ..startDistrictId = startDistrictId
@@ -26,6 +28,8 @@ extension OrderModelMapper on OrderModel {
       platform: platform,
       revenue: revenue,
       distance: distance,
+      pickupKm: pickupKm,
+      deliveryKm: deliveryKm,
       timestamp: timestamp,
       netProfit: netProfit,
       startDistrictId: startDistrictId,

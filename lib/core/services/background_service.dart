@@ -1,65 +1,136 @@
 import 'dart:async';
 import 'dart:ui';
-import 'package:flutter_background_service/flutter_background_service.dart';
-import 'package:flutter_background_service_android/flutter_background_service_android.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_notification_listener/flutter_notification_listener.dart';
+import 'package:flutter_overlay_window/flutter_overlay_window.dart';
+import 'package:isar/isar.dart';
+import 'package:path_provider/path_provider.dart';
 import '../injection/injection.dart' as di;
-Future<void> initializeService() async {
-  final service = FlutterBackgroundService();
+import '../models/district_profile.dart';
+import '../models/order_model.dart';
+import '../utils/score_engine.dart';
+import '../utils/district_utils.dart';
 
-  await service.configure(
-    androidConfiguration: AndroidConfiguration(
-      onStart: onStart,
-      autoStart: false,
-      isForegroundMode: true,
-      notificationChannelId: 'van_flow_service',
-      initialNotificationTitle: 'Van Flow Active',
-      initialNotificationContent: 'Monitoring orders...',
-      foregroundServiceNotificationId: 888,
-    ),
-    iosConfiguration: IosConfiguration(
-      autoStart: false,
-      onForeground: onStart,
-      onBackground: onIosBackground,
-    ),
-  );
+/// Hàm xử lý thông báo cấp cao nhất (Top-level function)
+/// Bắt buộc phải có @pragma('vm:entry-point') để Native có thể gọi vào
+@pragma('vm:entry-point')
+void onNotificationData(dynamic event) {
+  if (event is NotificationEvent) {
+    final String content = event.text ?? event.title ?? "";
+    if (content.isNotEmpty) {
+      _processNotificationContent(content);
+    }
+  }
 }
 
-@pragma('vm:entry-point')
-Future<bool> onIosBackground(ServiceInstance service) async {
-  return true;
-}
+class NotificationHandler {
+  static Future<void> startListening() async {
+    try {
+      // 1. Initialize plugin
+      NotificationsListener.initialize();
 
-@pragma('vm:entry-point')
-void onStart(ServiceInstance service) async {
-  DartPluginRegistrant.ensureInitialized();
-  
-  // Re-initialize DI in the background isolate
-  await di.init();
+      // 2. Khởi chạy Foreground Service
+      await NotificationsListener.startService(
+        foreground: true,
+        title: "VanFlow Assistant",
+        description: "Trợ lý đang lắng nghe đơn hàng...",
+      );
 
-  if (service is AndroidServiceInstance) {
-    service.on('setAsForeground').listen((event) {
-      service.setAsForegroundService();
-    });
-
-    service.on('setAsBackground').listen((event) {
-      service.setAsBackgroundService();
-    });
+      // 3. Đăng ký nhận dữ liệu qua Port
+      // Sửa lỗi type mismatch: listen mong đợi Function(dynamic)
+      NotificationsListener.receivePort?.listen(onNotificationData);
+      debugPrint("VAN_FLOW_DEBUG: Notification Handler is active");
+    } catch (e) {
+      debugPrint("VAN_FLOW_DEBUG: Error starting listener: $e");
+    }
   }
 
-  service.on('stopService').listen((event) {
-    service.stopSelf();
-  });
+  static void simulate(String content) {
+    _processNotificationContent(content);
+  }
+}
 
-  // Example: Listen for simulated notification/data capture
-  // In a real app, this might be a method channel or a notification listener
-  Timer.periodic(const Duration(minutes: 15), (timer) async {
-    if (service is AndroidServiceInstance) {
-      if (await service.isForegroundService()) {
-        // Business logic: e.g., capture an order if found in notifications
-        // This is where you'd use the Repository
-        // final repository = di.sl<OrderRepository>();
-        // ... capture logic ...
+@pragma('vm:entry-point')
+Future<void> _processNotificationContent(String content) async {
+  try {
+    debugPrint("VAN_FLOW_DEBUG: Analyzing -> $content");
+
+    final regExp = RegExp(
+        r"Đơn mới:\s*([\d.]+).*\s*[–-]\s*(.*?)\s*(?:->|→|>)\s*(.*?)\s*[–-]\s*([\d.]+)\s*km",
+        caseSensitive: false);
+
+    final match = regExp.firstMatch(content);
+    
+    if (!di.sl.isRegistered<Isar>()) {
+      final dir = await getApplicationDocumentsDirectory();
+      final isar = Isar.getInstance() ?? await Isar.open(
+        [OrderModelSchema, DistrictProfileSchema],
+        directory: dir.path,
+      );
+      if (!di.sl.isRegistered<Isar>()) {
+        di.sl.registerLazySingleton<Isar>(() => isar);
       }
     }
-  });
+
+    double fee = 0;
+    String targetName = "Unknown";
+    double distance = 0;
+
+    if (match != null) {
+      fee = double.parse(match.group(1)!.replaceAll('.', '').replaceAll(',', ''));
+      targetName = match.group(3)!.trim();
+      distance = double.parse(match.group(4)!);
+    } else if (content.contains("test")) {
+      fee = 520000;
+      targetName = "Bình Tân";
+      distance = 18.0;
+    } else {
+      return;
+    }
+
+    final targetDistrictId = DistrictUtils.normalizeId(targetName);
+    final isar = di.sl<Isar>();
+    final profile = await isar.districtProfiles
+        .filter()
+        .districtIdEqualTo(targetDistrictId)
+        .findFirst();
+
+    double score = 0;
+    String decisionName = "consider";
+    bool isVanFriendly = true;
+
+    if (profile != null) {
+      score = ScoreEngine.calculateScore(
+          OrderInput(fee: fee, emptyKm: 2.0, trafficMinutes: 15), profile);
+      decisionName = ScoreEngine.decisionFromScore(score).name;
+      isVanFriendly = profile.isVanFriendly;
+    } else {
+      score = 45000; 
+      decisionName = "accept";
+    }
+
+    if (!(await FlutterOverlayWindow.isActive())) {
+      await FlutterOverlayWindow.showOverlay(
+        enableDrag: true,
+        overlayTitle: "TRỢ LÝ ĐƠN HÀNG",
+        alignment: OverlayAlignment.center,
+        height: 400,
+        width: WindowSize.matchParent,
+      );
+      await Future.delayed(const Duration(milliseconds: 1500));
+    }
+
+    await FlutterOverlayWindow.shareData({
+      "score": score,
+      "decision": decisionName,
+      "fee": fee,
+      "target": targetName,
+      "distance": distance,
+      "isVanFriendly": isVanFriendly,
+    });
+    
+    debugPrint("VAN_FLOW_DEBUG: Overlay delivery successful.");
+  } catch (e) {
+    debugPrint("VAN_FLOW_DEBUG ERROR: $e");
+  }
 }

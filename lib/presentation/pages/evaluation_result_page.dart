@@ -12,6 +12,8 @@ class EvaluationResultPage extends StatelessWidget {
   final DistrictProfile profile;
   final double revenue;
   final double distance;
+  final double pickupKm;
+  final double deliveryKm;
   final String? startDistrictName;
   final String? targetDistrictName;
 
@@ -22,6 +24,8 @@ class EvaluationResultPage extends StatelessWidget {
     required this.profile,
     required this.revenue,
     required this.distance,
+    required this.pickupKm,
+    required this.deliveryKm,
     this.startDistrictName,
     this.targetDistrictName,
   });
@@ -119,6 +123,8 @@ class EvaluationResultPage extends StatelessWidget {
                 platform: "Đánh giá",
                 revenue: revenue,
                 distance: distance,
+                pickupKm: pickupKm,
+                deliveryKm: deliveryKm,
                 timestamp: DateTime.now(),
                 netProfit: netProfit,
                 startDistrictName: startDistrictName,

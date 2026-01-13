@@ -32,9 +32,11 @@ class OrderMonitorBloc extends Bloc<OrderMonitorEvent, OrderMonitorState> {
       platform: event.platform,
       revenue: event.revenue,
       distance: event.distance,
+      pickupKm: event.pickupKm,
+      deliveryKm: event.deliveryKm,
       timestamp: DateTime.now(),
       netProfit: netProfit,
-      targetDistrictId: event.districtId, // Sửa từ districtId thành targetDistrictId
+      targetDistrictId: event.districtId,
     );
     await _orderRepository.saveOrder(order);
   }

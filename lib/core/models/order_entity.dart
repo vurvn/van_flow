@@ -5,12 +5,14 @@ class OrderEntity extends Equatable {
   final String platform;
   final double revenue;
   final double distance;
+  final double pickupKm; // Added
+  final double deliveryKm; // Added
   final DateTime timestamp;
   final double netProfit;
-  final String? startDistrictId; // Added
-  final String? startDistrictName; // Added
-  final String? targetDistrictId; // Renamed from districtId
-  final String? targetDistrictName; // Added
+  final String? startDistrictId;
+  final String? startDistrictName;
+  final String? targetDistrictId;
+  final String? targetDistrictName;
   final bool isCompleted;
 
   const OrderEntity({
@@ -18,6 +20,8 @@ class OrderEntity extends Equatable {
     required this.platform,
     required this.revenue,
     required this.distance,
+    required this.pickupKm,
+    required this.deliveryKm,
     required this.timestamp,
     required this.netProfit,
     this.startDistrictId,
@@ -33,6 +37,8 @@ class OrderEntity extends Equatable {
     platform, 
     revenue, 
     distance, 
+    pickupKm,
+    deliveryKm,
     timestamp, 
     netProfit, 
     startDistrictId, 
