@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          submodules: recursive # Important if you added plugins as submodules
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -37,7 +39,7 @@ jobs:
         run: flutter pub run build_runner build --delete-conflicting-outputs
 
       - name: Build APK
-        run: flutter build apk --release
+        run: flutter build apk --release --no-daemon --no-watch-fs
 
       - name: Upload APK
         uses: actions/upload-artifact@v4

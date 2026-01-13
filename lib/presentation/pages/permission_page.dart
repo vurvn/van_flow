@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../core/services/permission_service.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
 import '../screens/main_screen.dart';
 
 class PermissionPage extends StatefulWidget {

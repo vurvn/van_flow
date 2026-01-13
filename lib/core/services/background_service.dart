@@ -26,6 +26,12 @@ void onNotificationData(dynamic event) {
 class NotificationHandler {
   static Future<void> startListening() async {
     try {
+      // Kiểm tra quyền trước khi start
+      bool? hasPermission = await NotificationsListener.hasPermission;
+      if (hasPermission != true) {
+        debugPrint("VAN_FLOW_DEBUG: Missing Notification Access Permission");
+        return;
+      }
       // 1. Initialize plugin
       NotificationsListener.initialize();
 
@@ -38,7 +44,19 @@ class NotificationHandler {
 
       // 3. Đăng ký nhận dữ liệu qua Port
       // Sửa lỗi type mismatch: listen mong đợi Function(dynamic)
-      NotificationsListener.receivePort?.listen(onNotificationData);
+      // NotificationsListener.receivePort?.listen(onNotificationData);
+      final port = NotificationsListener.receivePort;
+      if (port != null) {
+        port.listen((data) {
+          // Bọc trong try-catch riêng để tránh hỏng cả Port nếu 1 tin nhắn lỗi
+          try {
+            onNotificationData(data);
+          } catch (e) {
+            debugPrint("VAN_FLOW_DEBUG: Message processing error: $e");
+          }
+        });
+      }
+
       debugPrint("VAN_FLOW_DEBUG: Notification Handler is active");
     } catch (e) {
       debugPrint("VAN_FLOW_DEBUG: Error starting listener: $e");
