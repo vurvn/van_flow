@@ -35,5 +35,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/data/districts.json
-    - assets/data/hcmc_districts.geojson
     - assets/data/diaphanhuyen.geojson
