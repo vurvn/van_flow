@@ -43,8 +43,7 @@ class _EvaluationPageState extends State<EvaluationPage> {
     });
   }
 
-  void _simulateNotification() async {
-    // 1. Kiểm tra quyền Overlay trước khi giả lập
+  void _simulateNotification(String content) async {
     bool hasOverlayPermission = await FlutterOverlayWindow.isPermissionGranted();
     if (!hasOverlayPermission) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -57,14 +56,13 @@ class _EvaluationPageState extends State<EvaluationPage> {
       return;
     }
 
-    // 2. Gọi trực tiếp Handler thay vì qua BackgroundService cũ
-    NotificationHandler.simulate("Đơn mới: 520.000đ - Q12 -> Bình Tân - 18km");
+    NotificationHandler.simulate(content);
     
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('🚀 Đang giả lập thông báo đơn hàng...'),
-        backgroundColor: Colors.green,
-        duration: Duration(seconds: 2),
+      SnackBar(
+        content: Text('🚀 Giả lập: ${content.split('-').first}'),
+        backgroundColor: Colors.blueGrey[800],
+        duration: const Duration(seconds: 1),
       ),
     );
   }
@@ -162,18 +160,18 @@ class _EvaluationPageState extends State<EvaluationPage> {
                     _buildSectionTitle('QUẬN ĐẾN (KẾT THÚC)'),
                     _buildDistrictScroll(false),
                     
-                    const SizedBox(height: 20),
-                    
-                    OutlinedButton.icon(
-                      onPressed: _simulateNotification,
-                      icon: const Icon(Icons.bug_report, size: 18),
-                      label: const Text('TEST GIẢ LẬP THÔNG BÁO'),
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: Colors.amberAccent.withOpacity(0.6),
-                        side: BorderSide(color: Colors.amberAccent.withOpacity(0.2)),
-                        minimumSize: const Size(double.infinity, 50),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                      ),
+                    const SizedBox(height: 30),
+                    _buildSectionTitle('SIMULATE NOTIFICATIONS'),
+                    const SizedBox(height: 10),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: [
+                        _buildSimButton('ĐƠN TỐT', 'Đơn mới: 520.000đ - Q7 -> Q1 - 5km', Colors.greenAccent),
+                        _buildSimButton('ĐƠN LỖ', 'Đơn mới: 45.000đ - Q1 -> Hóc Môn - 35km', Colors.redAccent),
+                        _buildSimButton('ĐƠN XA', 'Đơn mới: 820.000đ - Q12 -> Nhà Bè - 28km', Colors.blueAccent),
+                        _buildSimButton('ĐƠN NHỎ', 'Đơn mới: 120.000đ - Q10 -> Q3 - 3km', Colors.orangeAccent),
+                      ],
                     ),
                     const SizedBox(height: 20),
                   ],
@@ -184,6 +182,16 @@ class _EvaluationPageState extends State<EvaluationPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildSimButton(String label, String content, Color color) {
+    return ActionChip(
+      onPressed: () => _simulateNotification(content),
+      label: Text(label),
+      backgroundColor: color.withOpacity(0.1),
+      labelStyle: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 12),
+      side: BorderSide(color: color.withOpacity(0.3)),
     );
   }
 

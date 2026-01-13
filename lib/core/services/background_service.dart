@@ -12,7 +12,6 @@ import '../utils/score_engine.dart';
 import '../utils/district_utils.dart';
 
 /// Hàm xử lý thông báo cấp cao nhất (Top-level function)
-/// Bắt buộc phải có @pragma('vm:entry-point') để Native có thể gọi vào
 @pragma('vm:entry-point')
 void onNotificationData(dynamic event) {
   if (event is NotificationEvent) {
@@ -26,29 +25,22 @@ void onNotificationData(dynamic event) {
 class NotificationHandler {
   static Future<void> startListening() async {
     try {
-      // Kiểm tra quyền trước khi start
       bool? hasPermission = await NotificationsListener.hasPermission;
       if (hasPermission != true) {
         debugPrint("VAN_FLOW_DEBUG: Missing Notification Access Permission");
         return;
       }
-      // 1. Initialize plugin
       NotificationsListener.initialize();
 
-      // 2. Khởi chạy Foreground Service
       await NotificationsListener.startService(
         foreground: true,
         title: "VanFlow Assistant",
         description: "Trợ lý đang lắng nghe đơn hàng...",
       );
 
-      // 3. Đăng ký nhận dữ liệu qua Port
-      // Sửa lỗi type mismatch: listen mong đợi Function(dynamic)
-      // NotificationsListener.receivePort?.listen(onNotificationData);
       final port = NotificationsListener.receivePort;
       if (port != null) {
         port.listen((data) {
-          // Bọc trong try-catch riêng để tránh hỏng cả Port nếu 1 tin nhắn lỗi
           try {
             onNotificationData(data);
           } catch (e) {
@@ -132,7 +124,9 @@ Future<void> _processNotificationContent(String content) async {
         enableDrag: true,
         overlayTitle: "TRỢ LÝ ĐƠN HÀNG",
         alignment: OverlayAlignment.center,
-        height: 400,
+        visibility: NotificationVisibility.visibilityPublic,
+        flag: OverlayFlag.defaultFlag,
+        height: 2500, // Tăng chiều cao khung chứa để widget bên trong linh hoạt hơn
         width: WindowSize.matchParent,
       );
       await Future.delayed(const Duration(milliseconds: 1500));
