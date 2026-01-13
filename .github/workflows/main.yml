@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - master
-      - features/notifications
+      - features/notification
   pull_request:
     branches:
       - master
-      - features/notifications
+      - features/notification
 
 jobs:
   build:
