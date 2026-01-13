@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - master
+      - features/notifications
   pull_request:
     branches:
       - master
+      - features/notifications
 
 jobs:
   build:
@@ -25,7 +27,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.29.0' # Matches your environment roughly, or use 'stable'
+          flutter-version: '3.29.0'
           channel: 'stable'
 
       - name: Install dependencies
