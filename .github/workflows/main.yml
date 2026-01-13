@@ -39,7 +39,7 @@ jobs:
         run: flutter pub run build_runner build --delete-conflicting-outputs
 
       - name: Build APK
-        run: flutter build apk --release --no-daemon --no-watch-fs
+        run: flutter build apk --release
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
